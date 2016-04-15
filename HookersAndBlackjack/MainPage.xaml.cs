@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+using HookersAndBlackjack.Model;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace HookersAndBlackjack
@@ -25,6 +26,18 @@ namespace HookersAndBlackjack
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private void KolikkopeliButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Lisää ja navigoi uudelle sivulle.
+            this.Frame.Navigate(typeof(Kolikkopeli));
+        }
+
+        private void BlackjackButton_Click(object sender, RoutedEventArgs e)
+        {
+            // lisää ja navigoi uudelle sivulle.
+            this.Frame.Navigate(typeof(BlackjackMenu));
         }
     }
 }
