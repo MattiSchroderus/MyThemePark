@@ -29,6 +29,12 @@
             <Slider x:Name="slider_Bet" HorizontalAlignment="Left" Margin="56,112,0,0" VerticalAlignment="Top" Width="233" Grid.Row="1" RenderTransformOrigin="0,0.5" Height="44"/>
             <TextBlock x:Name="textBlock_Bet" HorizontalAlignment="Left" Margin="145,64,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Grid.Row="1" Height="32" Width="70"/>
             <TextBlock x:Name="textBlock_Money" HorizontalAlignment="Left" Margin="56,156,0,0" TextWrapping="Wrap" Text="Money:" VerticalAlignment="Top" Width="172" Grid.Row="1" Height="20"/>
+            <!--
+            <RelativePanel Grid.Row="0" HorizontalAlignment="Center">
+            <Image x:Name="image1" Height="140" Margin="0" Width="80"/>
+            <Image x:Name="image2" Height="140" Margin="0" Width="80"/>
+            </RelativePanel>
+            -->
             <Image x:Name="image1" HorizontalAlignment="Left" Height="141" Margin="10,273,0,0" VerticalAlignment="Top" Width="80"/>
             <Image x:Name="image2" HorizontalAlignment="Left" Height="141" Margin="95,273,0,0" VerticalAlignment="Top" Width="80"/>
             <Image x:Name="image3" HorizontalAlignment="Left" Height="141" Margin="180,273,0,0" VerticalAlignment="Top" Width="80"/>
