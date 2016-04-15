@@ -48,10 +48,9 @@ namespace HookersAndBlackjack
                 DebugScreen.Text += "Error while trying to save values from ComboBoxes\n";
             }
         }
-
-        private void Back_Click(object sender, RoutedEventArgs e)
+        private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            // get root frame (which shows pages)
+            // get root frame (which show pages)
             Frame rootFrame = Window.Current.Content as Frame;
             // did we get it correctly
             if (rootFrame == null) return;
@@ -61,5 +60,6 @@ namespace HookersAndBlackjack
                 rootFrame.GoBack();
             }
         }
+       
     }
 }

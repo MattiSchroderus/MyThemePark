@@ -34,6 +34,7 @@ namespace HookersAndBlackjack
             this.InitializeComponent();
         }
 
+
         // Play napin painaminen, pelin aloitus
         private void button_Play_Click(object sender, RoutedEventArgs e)
         {
@@ -77,7 +78,6 @@ namespace HookersAndBlackjack
             }
         }
         */
-
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             // get root frame (which show pages)
@@ -90,6 +90,7 @@ namespace HookersAndBlackjack
                 rootFrame.GoBack();
             }
         }
+       
         //Tuplaus
         /*
                 //button_Double.isPressed())
