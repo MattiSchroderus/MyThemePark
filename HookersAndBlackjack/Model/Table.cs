@@ -195,6 +195,11 @@ namespace HookersAndBlackjack.Model
 
         }
 
+        public void Pass()
+        {
+            throw new NotImplementedException();
+        }
+
         // Tämä tarkistaa onko yhteen laskettu arvo yli 21.
         // Ei kuulu tänne. Siirretään Foe luokkaan.
         public void Checker()
@@ -207,6 +212,44 @@ namespace HookersAndBlackjack.Model
             if (u > 21)
             {
                 Popup();
+            }
+        }
+
+        public void Vuorottelija()
+        {
+            foreach (Foe f in PlayerList)
+            {
+                // Voitaisiin myös tehä niin että pelaajien kohdalla
+                // uhkarohkeus on null. silloin switchi siirtyisi
+                // default kohtaan ja suorittaisi siellä olevat komennot
+                if (f.Intelligence == true)
+                {
+                    // Pupup on yks tapa kysyä pelaajan inputtia.
+                    // Tosin omasta mielestä tämä ei ole niin hieno
+                    // Tapa ottaa inputtia.
+                    Popup();
+                    // Toinen vaihtoehto on kaikkien metodien muuttaminen
+                    // Asyncronisiksi. Pelaaja voi vaikka heti tehdä
+                    // päätöksen, mutta joutuu odottelemaan tietokonetta
+                    // jotta se varsinaisesti rekisteröityy.
+                }
+                else
+                {
+                    switch(f.Uhkarohkeus)
+                    {
+                        case 0:
+                            Pass();
+                            break;
+                        case 10:
+                            Hit();
+                            break;
+                        default:
+                            // Tänne pelaajan jutut. Tai varsinaisesti ottaen
+                            // tänne tulee pelaajan valmiiksi valitsema metodi.
+                            // Jos tuon metodin voisi vaikka tallentaa.
+                            break;
+                    }
+                }
             }
         }
 
