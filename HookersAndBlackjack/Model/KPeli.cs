@@ -11,7 +11,7 @@ namespace HookersAndBlackjack.Model
         public Wheel rulla { get; set; }
 
         /// <summary>
-        /// Palauttaa 3 rullan numerosarjan esim. 134
+        /// Palauttaa 3 rullan numerosarjan esim. 134 asd
         /// </summary>
         public int Play()
         {
