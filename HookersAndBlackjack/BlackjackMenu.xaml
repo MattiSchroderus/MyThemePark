@@ -22,7 +22,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <!--First row-->
-        <TextBlock FontSize="20" Margin="5" Grid.Row="0">Number of packs:</TextBlock>
+        <TextBlock FontSize="18" FontFamily="Showcard Gothic" VerticalAlignment="Center" Margin="5" Grid.Row="0">Number of packs:</TextBlock>
         <ComboBox x:Name="PackNumber" FontSize="20" Margin="5" Width="150" Grid.Row="0" HorizontalAlignment="Right">
             <x:String>1</x:String>
             <x:String>2</x:String>
@@ -34,7 +34,7 @@
             <x:String>8</x:String>
         </ComboBox>
         <!--Second row-->
-        <TextBlock FontSize="20" Margin="5" Grid.Row="1" >Stake size:</TextBlock>
+        <TextBlock FontSize="18" FontFamily="Showcard Gothic" VerticalAlignment="Center" Margin="5" Grid.Row="1" >Stake size:</TextBlock>
         <ComboBox x:Name="StakeSize" FontSize="20" Margin="5" Width="150" Grid.Row="1" HorizontalAlignment="Right">
             <x:String>1</x:String>
             <x:String>2</x:String>
@@ -46,7 +46,7 @@
         <!--Third row-->
         <TextBlock x:Name="DebugScreen" FontSize="20" Margin="5" Grid.Row="2" TextWrapping="Wrap"></TextBlock>
         <!--Last row-->
-        <Button x:Name="Play" FontSize="20" Margin="5" Grid.Row="4" HorizontalAlignment="Right" Click="Play_Click">Play</Button>
-        <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left"  Margin ="15,0,0,15" VerticalAlignment="Bottom" Background="#FFCD6E0F" Height="50" Width="100" Click="backButton_Click" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Grid.Row="3" Grid.RowSpan="2"/>
+        <Button x:Name="Play" FontSize="18" FontFamily="Showcard Gothic" Margin="15" Grid.Row="4" HorizontalAlignment="Right" Background="#FFCD6E0F" Height="50" Width="100" Click="Play_Click">Play</Button>
+        <Button x:Name="backButton" FontSize="18" FontFamily="Showcard Gothic" HorizontalAlignment="Left"  Margin ="15" Background="#FFCD6E0F" Height="50" Width="100" Click="backButton_Click" Grid.Row="4">Back</Button>
     </Grid>
 </Page>
