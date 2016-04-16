@@ -46,7 +46,27 @@
         <!--Third row-->
         <TextBlock x:Name="DebugScreen" FontSize="20" Margin="5" Grid.Row="2" TextWrapping="Wrap"></TextBlock>
         <!--Last row-->
-        <Button x:Name="Play" FontSize="18" FontFamily="Showcard Gothic" Margin="15" Grid.Row="4" HorizontalAlignment="Right" Background="#FFCD6E0F" Height="50" Width="100" Click="Play_Click">Play</Button>
-        <Button x:Name="backButton" FontSize="18" FontFamily="Showcard Gothic" HorizontalAlignment="Left"  Margin ="15" Background="#FFCD6E0F" Height="50" Width="100" Click="backButton_Click" Grid.Row="4">Back</Button>
+        <Button x:Name="Play"
+                FontSize="18"
+                BorderBrush="Black"
+                FontFamily="Showcard Gothic"
+                Margin="15"
+                Grid.Row="4"
+                HorizontalAlignment="Right"
+                Background="#FFCD6E0F"
+                Height="50"
+                Width="100"
+                Click="Play_Click">Play</Button>
+        <Button x:Name="backButton"
+                FontSize="18"
+                BorderBrush="Black"
+                FontFamily="Showcard Gothic"
+                Margin ="15"
+                Grid.Row="4"
+                HorizontalAlignment="Left"
+                Background="#FFCD6E0F"
+                Height="50"
+                Width="100"
+                Click="backButton_Click">Back</Button>
     </Grid>
 </Page>
