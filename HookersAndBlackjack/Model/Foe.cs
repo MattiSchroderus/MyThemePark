@@ -15,5 +15,12 @@ namespace HookersAndBlackjack.Model
         public List<Kortti> Hand = new List<Kortti>();
         public bool Intelligence { get; set; }
         public int Uhkarohkeus { get; set; }
+        
+        public Foe () { }
+        public Foe (bool intelligence, int uhkarohkeus)
+        {
+            Intelligence = intelligence;
+            Uhkarohkeus = uhkarohkeus;
+        }
     }
 }

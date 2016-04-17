@@ -50,7 +50,8 @@ namespace HookersAndBlackjack
             try
             {
                 House.Deal();
-                house.Checker();
+                House.Checker();
+                House.Rotator();
             }
             catch
             {
