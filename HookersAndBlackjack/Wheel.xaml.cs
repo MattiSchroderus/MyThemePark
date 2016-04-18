@@ -39,32 +39,39 @@ namespace HookersAndBlackjack
         /// <summary>
         /// Rullan pyöräytys = random numero, images = kuvien määrä rullassa
         /// </summary>
-        public int Spin(int images)
+        public int Spin()
         {
+            //kuvan vaihto
             Random rand = new Random();
-            int numero = rand.Next(1, (images + 1));
+            int numero = rand.Next(1, (200 + 1));
             if (0 < numero && numero < 11)
             {
+                //kuvan vaihto
                 return 5;
             }
             else if (10 < numero && numero < 19)
             {
+                //kuvan vaihto
                 return 4;
             }
             else if (18 < numero && numero < 24)
             {
+                //kuvan vaihto
                 return 3;
             }
             else if (24 < numero && numero < 28)
             {
+                //kuvan vaihto
                 return 2;
             }
             else if (numero == 28)
             {
+                //kuvan vaihto
                 return 1;
             }
             else
             {
+                //kuvan vaihto
                 return 0;
             }
         }

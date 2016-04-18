@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace HookersAndBlackjack.Model
 {
-    class Player
+    /// <summary>
+    /// 1 = Human, 4 = House, 2 = Easy, 3 = Hard
+    /// </summary>
+    public class Player
     {
         private string Name { get; set; }
-        /// <summary>
-        /// 1 = Human, 4 = House, 2 = Easy, 3 = Hard
-        /// </summary>
         public int AI { get; set; }
         public int Money { get; set; }
         public int Chips { get; set; }
