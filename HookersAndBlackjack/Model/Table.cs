@@ -195,6 +195,11 @@ namespace HookersAndBlackjack.Model
 
         }
 
+        public void Pass()
+        {
+            throw new NotImplementedException();
+        }
+
         // Tämä tarkistaa onko yhteen laskettu arvo yli 21.
         // Ei kuulu tänne. Siirretään Foe luokkaan.
         public void Checker()
@@ -207,6 +212,64 @@ namespace HookersAndBlackjack.Model
             if (u > 21)
             {
                 Popup();
+            }
+        }
+        // Rotaattorin prototyyppi on valmis. Käyttää popuppia.
+        public void Rotator()
+        {
+            // Taaskin intelligence arvon voisi tiputtaa ja tehdä jostain
+            // kokonais luvusta pelaaja arvon. Vaikka nullista.
+            Foe p = new Foe(true, 0);
+            PlayerList.Add(p);
+            for (int i = 0; i < 4; i++)
+            {
+                Foe w = new Foe(false, 10);
+                PlayerList.Add(w);
+            }
+            // Fisher-Yates sekoitus
+            ushort n = (ushort)PlayerList.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rand.Next(n + 1);
+                Dummy = PlayerList[k];
+                PlayerList[k] = PlayerList[n];
+                PlayerList[n] = Dummy;
+            }
+            // Checkkaus looppi
+            foreach (Foe f in PlayerList)
+            {
+                // Voitaisiin myös tehä niin että pelaajien kohdalla
+                // uhkarohkeus on null. silloin switchi siirtyisi
+                // default kohtaan ja suorittaisi siellä olevat komennot
+                if (f.Intelligence == true)
+                {
+                    // Pupup on yks tapa kysyä pelaajan inputtia.
+                    // Tosin omasta mielestä tämä ei ole niin hieno
+                    // Tapa ottaa inputtia, koska se pysäyttää loopin.
+                    Popup();
+                    // Toinen vaihtoehto on kaikkien metodien muuttaminen
+                    // Asyncronisiksi. Pelaaja voi vaikka heti tehdä
+                    // päätöksen, mutta joutuu odottelemaan tietokonetta
+                    // jotta se varsinaisesti rekisteröityy.
+                }
+                else
+                {
+                    switch(f.Uhkarohkeus)
+                    {
+                        case 0:
+                            Pass();
+                            break;
+                        case 10:
+                            Hit();
+                            break;
+                        default:
+                            // Tänne pelaajan jutut. Tai varsinaisesti ottaen
+                            // tänne tulee pelaajan valmiiksi valitsema metodi.
+                            // Jos tuon metodin voisi vaikka tallentaa.
+                            break;
+                    }
+                }
             }
         }
 

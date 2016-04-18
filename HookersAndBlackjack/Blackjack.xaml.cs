@@ -37,7 +37,6 @@ namespace HookersAndBlackjack
                 // Jos laittaisit loopin Foe luokan sisään. Jokainen pelaaja 
                 // on listassa. Lista sekoitetaan <- Pelaaja järjestys muuttuu
                 // Kun lista menee pelaajan kohalle
-                // Table h;
             }
         }
 
@@ -51,7 +50,8 @@ namespace HookersAndBlackjack
             try
             {
                 House.Deal();
-                house.Checker();
+                House.Checker();
+                House.Rotator();
             }
             catch
             {
