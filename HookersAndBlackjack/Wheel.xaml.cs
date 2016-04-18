@@ -1,13 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
-namespace HookersAndBlackjack.Model
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+
+namespace HookersAndBlackjack
 {
-    public class Wheel
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class Wheel : Page
     {
+        public double LocationX { get; set; }
+        public double LocationZ { get; set; }
+
+
+
+
+        public Wheel()
+        {
+            this.InitializeComponent();
+
+            Width = 80;
+            Height = 141;
+        }
+
         /// <summary>
         /// Rullan pyöräytys = random numero, images = kuvien määrä rullassa
         /// </summary>

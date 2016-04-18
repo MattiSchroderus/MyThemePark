@@ -23,7 +23,11 @@ namespace HookersAndBlackjack
     /// </summary>
     public sealed partial class Kolikkopeli : Page
     {
-        KPeli kolikkopeli = new KPeli();
+        private KPeli kolikkopeli;
+
+
+        public static double CanvasWidth;
+        public static double CanvasHeight;
 
         //Voitetut rahat jotka siirretään tilille
         int winnings = 0;
@@ -32,6 +36,10 @@ namespace HookersAndBlackjack
         public Kolikkopeli()
         {
             this.InitializeComponent();
+
+            CanvasWidth = MyCanvas.Width;
+            CanvasHeight = MyCanvas.Height;
+            kolikkopeli = new KPeli(MyCanvas);
         }
 
 
@@ -62,22 +70,6 @@ namespace HookersAndBlackjack
                 textBlock_Log.Text += "\nError: Not enough money!";
             }
         }
-
-        /*
-        //Kuvarullan kuvien vaihto
-        private void Images(int combination, Image img)
-        {
-            switch (combination)
-            {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                default:
-            }
-        }
-        */
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             // get root frame (which show pages)

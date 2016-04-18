@@ -3,12 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace HookersAndBlackjack.Model
 {
     public class KPeli
     {
-        public Wheel rulla { get; set; }
+        Wheel wheel1 = new Wheel();
+        Wheel wheel2 = new Wheel();
+        Wheel wheel3 = new Wheel();
+        Wheel wheelDouble = new Wheel();
+
+        private Canvas canvas;
+
+        public KPeli(Canvas canvas)
+        {
+            this.canvas = canvas;
+
+
+        }
 
         /// <summary>
         /// Palauttaa 3 rullan numerosarjan esim. 134 asd
@@ -16,9 +29,9 @@ namespace HookersAndBlackjack.Model
         public int Play()
         {
             //Spin Wheels
-            int numero1 = rulla.Spin(200);
-            int numero2 = rulla.Spin(200);
-            int numero3 = rulla.Spin(200);
+            int numero1 = wheel1.Spin(200);
+            int numero2 = wheel2.Spin(200);
+            int numero3 = wheel3.Spin(200);
 
             //Check combinations
             if (numero1 == numero2 && numero3 == numero1 | numero1 != 0)
