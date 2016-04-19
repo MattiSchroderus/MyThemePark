@@ -23,7 +23,12 @@ namespace HookersAndBlackjack
     /// </summary>
     public sealed partial class Kolikkopeli : Page
     {
-        KPeli kolikkopeli = new KPeli();
+        private KPeli kolikkopeli;
+        Player player = new Player("testaaja", 1);
+
+
+        public static double CanvasWidth;
+        public static double CanvasHeight;
 
         //Voitetut rahat jotka siirretään tilille
         int winnings = 0;
@@ -32,6 +37,13 @@ namespace HookersAndBlackjack
         public Kolikkopeli()
         {
             this.InitializeComponent();
+
+            CanvasWidth = MyCanvas.Width;
+            CanvasHeight = MyCanvas.Height;
+            kolikkopeli = new KPeli(MyCanvas);
+
+            //testirahaa
+            player.Money = 200;
         }
 
 
@@ -41,43 +53,23 @@ namespace HookersAndBlackjack
             int bet = int.Parse(textBlock_Bet.Text);
 
             //tarkistus, riittääkö rahat
-            if (kolikkopeli.bet(int.Parse(textBlock_Bet.Text)) == true)
+            if (kolikkopeli.CheckBet(bet, player) == true)
             {
-
+                //jos, niin:
                 //Rulluen pyöräytys
-                int comb = kolikkopeli.Play(); //--> rullien combinaatio
+                int combination = kolikkopeli.Play(); //--> rullien combinaatio
 
                 //Voitot/Häviöt
-                winnings = kolikkopeli.Win(comb, bet);
-
-                //Kuvien vaihto
-                /*
-                Images(int.Parse(comb.ToString().Substring(0,1)), image1);
-                Images(int.Parse(comb.ToString().Substring(1,2)), image2);
-                Images(int.Parse(comb.ToString().Substring(2,3)), image3);
-                */
+                winnings = kolikkopeli.CheckWin(combination, bet);
             }
+            //jos ei:
             else
             {
                 textBlock_Log.Text += "\nError: Not enough money!";
             }
         }
 
-        /*
-        //Kuvarullan kuvien vaihto
-        private void Images(int combination, Image img)
-        {
-            switch (combination)
-            {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                default:
-            }
-        }
-        */
+        //Back-napin painaminen
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             // get root frame (which show pages)

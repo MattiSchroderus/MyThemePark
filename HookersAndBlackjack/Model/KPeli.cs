@@ -3,22 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace HookersAndBlackjack.Model
 {
     public class KPeli
     {
-        public Wheel rulla { get; set; }
+        Wheel wheel1 = new Wheel() { LocationX = 0 , LocationZ = 0};
+        Wheel wheel2 = new Wheel() { LocationX = 86, LocationZ = 0};
+        Wheel wheel3 = new Wheel() { LocationX = 172, LocationZ = 0};
+        Wheel wheelDouble = new Wheel() { LocationX = 260, LocationZ = 0};
+
+        private Canvas canvas;
+
+        public KPeli(Canvas canvas)
+        {
+            this.canvas = canvas;
+
+            canvas.Children.Add(wheel1);
+            canvas.Children.Add(wheel2);
+            canvas.Children.Add(wheel3);
+            canvas.Children.Add(wheelDouble);
+        }
 
         /// <summary>
-        /// Palauttaa 3 rullan numerosarjan esim. 134 asd
+        /// Palauttaa 3 rullan numerosarjan esim. 134
         /// </summary>
         public int Play()
         {
             //Spin Wheels
-            int numero1 = rulla.Spin(200);
-            int numero2 = rulla.Spin(200);
-            int numero3 = rulla.Spin(200);
+            int numero1 = wheel1.Spin();
+            int numero2 = wheel2.Spin();
+            int numero3 = wheel3.Spin();
 
             //Check combinations
             if (numero1 == numero2 && numero3 == numero1 | numero1 != 0)
@@ -43,9 +59,17 @@ namespace HookersAndBlackjack.Model
         /// <summary>
         /// Panoksen asettaminen
         /// </summary>
-        internal bool bet(int v)
+        public bool CheckBet(int bet, Player player)
         {
-            throw new NotImplementedException();
+            if(player.Money >= bet)
+            {
+                player.Money -= bet;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -69,16 +93,16 @@ namespace HookersAndBlackjack.Model
         /// <summary>
         /// Tarkistaa voitot, palauttaa bet * x
         /// </summary>
-        public int Win(int numero, int bet)
+        public int CheckWin(int combination, int bet)
         {
-            switch (numero)
+            switch (combination)
             {
                 case 111: return bet * 25;
                 case 222: return bet * 10;
                 case 333: return bet * 5;
                 case 444: return bet * 2;
                 case 555: return bet;
-                default: return bet - (2 * bet);
+                default: return -(bet);
             }
         }
     }
