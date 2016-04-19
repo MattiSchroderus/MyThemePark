@@ -32,12 +32,9 @@ namespace HookersAndBlackjack
             this.InitializeComponent();
             // House.Start();
             House.Dummy.Intelligence = false;
-            for (int i = 0; i < 2; i++)
-            {
-                // Jos laittaisit loopin Foe luokan sisään. Jokainen pelaaja 
-                // on listassa. Lista sekoitetaan <- Pelaaja järjestys muuttuu
-                // Kun lista menee pelaajan kohalle
-            }
+            // Mitä jos muokkaisit noita nappuloita siten että ne on
+            // asynkronisia? Silloin ne odottaisi loopin valmistumista.
+            // Ja sitten ne tallentaisi stringiin vastauksen. Tai int.
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
