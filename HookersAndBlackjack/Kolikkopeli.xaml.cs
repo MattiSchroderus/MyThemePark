@@ -44,16 +44,17 @@ namespace HookersAndBlackjack
 
             //testirahaa
             player.Money = 200;
+            TextMoney();
         }
 
-
+        
         // Play napin painaminen, pelin aloitus
         private void button_Play_Click(object sender, RoutedEventArgs e)
         {
             int bet = int.Parse(textBlock_Bet.Text);
 
             //tarkistus, riittääkö rahat
-            if (kolikkopeli.CheckBet(bet, player) == true)
+            if (player.Money >= bet && bet != 0)
             {
                 //jos, niin:
                 //Rulluen pyöräytys
@@ -61,11 +62,21 @@ namespace HookersAndBlackjack
 
                 //Voitot/Häviöt
                 winnings = kolikkopeli.CheckWin(combination, bet);
+                player.Money += winnings;
+                TextMoney();
+                if (winnings > 0)
+                {
+                    LogAdd("You won " + winnings.ToString());
+                }
+                else
+                {
+                    LogAdd("You lost " + ((-1) * winnings).ToString());
+                }
             }
             //jos ei:
             else
             {
-                textBlock_Log.Text += "\nError: Not enough money!";
+                LogAdd("Not enough money!");
             }
         }
 
@@ -82,7 +93,7 @@ namespace HookersAndBlackjack
                 rootFrame.GoBack();
             }
         }
-       
+
         //Tuplaus
         /*
                 //button_Double.isPressed())
@@ -99,6 +110,16 @@ namespace HookersAndBlackjack
                     }
                 }
                     */
+
+        private void LogAdd(string text)
+        {
+            textBlock_Log.Text = text + Environment.NewLine + textBlock_Log.Text;
+        }
+
+        private void TextMoney()
+        {
+            textBlock_Money.Text = "Money: " + player.Money.ToString();
+        }
 
     }
 

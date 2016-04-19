@@ -55,23 +55,6 @@ namespace HookersAndBlackjack.Model
             }
         }
 
-
-        /// <summary>
-        /// Panoksen asettaminen
-        /// </summary>
-        public bool CheckBet(int bet, Player player)
-        {
-            if(player.Money >= bet)
-            {
-                player.Money -= bet;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         /// <summary>
         /// Tuplaus, palauttaa 1=onnistui 0=epäonnistui
         /// </summary>
