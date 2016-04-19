@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HookersAndBlackjack.Model;
+using Windows.UI;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -121,6 +122,28 @@ namespace HookersAndBlackjack
             textBlock_Money.Text = "Money: " + player.Money.ToString();
         }
 
+        //Teemavalitsin
+        private void languageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender.Equals(languageButton_Suomi))
+            {
+                bg_gradient_top.Color = Color.FromArgb(255, 199, 101, 3);
+                bg_gradient_mid.Color = Color.FromArgb(255, 199, 101, 3);
+                bg_gradient_bot.Color = Colors.Black;
+                canvas_gradient_bot.Color = Color.FromArgb(255, 243, 156, 51);
+                canvas_gradient_middle.Color = Color.FromArgb(255, 161, 103, 33);
+                canvas_gradient_top.Color = Color.FromArgb(255, 0, 0, 0);
+            }
+            else
+            {
+                bg_gradient_top.Color = Color.FromArgb(255, 253, 137, 253);
+                bg_gradient_mid.Color = Color.FromArgb(200, 20, 255, 255);
+                bg_gradient_bot.Color = Color.FromArgb(150, 0, 255, 100);
+                canvas_gradient_top.Color = Color.FromArgb(200, 224, 0, 200);
+                canvas_gradient_middle.Color = Color.FromArgb(150, 225, 100, 200);
+                canvas_gradient_bot.Color = Color.FromArgb(150, 0, 255, 255);
+            }
+        }
     }
 
 }
