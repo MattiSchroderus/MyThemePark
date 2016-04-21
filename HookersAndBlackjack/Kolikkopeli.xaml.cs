@@ -127,6 +127,10 @@ namespace HookersAndBlackjack
         {
             if (sender.Equals(languageButton_Suomi))
             {
+                muteButton.Visibility = Visibility.Collapsed;
+                volumeText.Visibility = Visibility.Collapsed;
+                volumeSlider.Visibility = Visibility.Collapsed;
+                mediaElement.Pause();
                 bg_gradient_top.Color = Color.FromArgb(255, 199, 101, 3);
                 bg_gradient_mid.Color = Color.FromArgb(255, 199, 101, 3);
                 bg_gradient_bot.Color = Colors.Black;
@@ -136,12 +140,34 @@ namespace HookersAndBlackjack
             }
             else
             {
+                muteButton.Visibility = Visibility.Visible;
+                volumeText.Visibility = Visibility.Visible;
+                volumeSlider.Visibility = Visibility.Visible;
+                mediaElement.Play();
                 bg_gradient_top.Color = Color.FromArgb(255, 253, 137, 253);
                 bg_gradient_mid.Color = Color.FromArgb(200, 20, 255, 255);
                 bg_gradient_bot.Color = Color.FromArgb(150, 0, 255, 100);
                 canvas_gradient_top.Color = Color.FromArgb(200, 224, 0, 200);
                 canvas_gradient_middle.Color = Color.FromArgb(150, 225, 100, 200);
                 canvas_gradient_bot.Color = Color.FromArgb(150, 0, 255, 255);
+            }
+        }
+
+        private void muteButton_Click(object sender, RoutedEventArgs e)
+        {
+            mediaElement.Pause();
+        }
+
+        //volume sliderin arvon muuttaminen
+        private void volumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if(kolikkopeli == null)
+            {
+
+            }
+            else
+            {
+                mediaElement.Volume = volumeSlider.Value;
             }
         }
     }

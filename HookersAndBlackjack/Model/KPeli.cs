@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
 namespace HookersAndBlackjack.Model
@@ -15,6 +17,7 @@ namespace HookersAndBlackjack.Model
         Wheel wheelDouble = new Wheel() { LocationX = 260, LocationZ = 0};
 
         private Canvas canvas;
+        //MediaElement mediaElement = new MediaElement();
 
         public KPeli(Canvas canvas)
         {
@@ -24,6 +27,7 @@ namespace HookersAndBlackjack.Model
             canvas.Children.Add(wheel2);
             canvas.Children.Add(wheel3);
             canvas.Children.Add(wheelDouble);
+            
         }
 
         /// <summary>

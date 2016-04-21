@@ -46,7 +46,7 @@
             <Canvas x:Name="MyCanvas" HorizontalAlignment="Left" Height="141" Margin="10,213,0,0" VerticalAlignment="Top" Width="340"/>
             <Image x:Name="image_Prizes" HorizontalAlignment="Right" Height="124" Margin="0,10,10,0" VerticalAlignment="Top" Width="340"/>
         </Grid>
-        <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left"  Margin ="24,0,0,24" VerticalAlignment="Bottom" Background="#FFCD6E0F" Height="50" Width="100" Click="backButton_Click" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic"/>
+        <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left"  Margin ="24,0,0,24" VerticalAlignment="Bottom" Background="#33CD6E0F" Height="50" Width="100" Click="backButton_Click" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic"/>
         <Button x:Name="languageButton_Suomi" Content="Suomi" HorizontalAlignment="Left" Margin="25,122,0,0" VerticalAlignment="Top" Height="34" Width="101" Click="languageButton_Click"/>
         <TextBlock x:Name="languageText" HorizontalAlignment="Left" Margin="25,88,0,0" TextWrapping="Wrap" Text="Language:" VerticalAlignment="Top"/>
         <Button x:Name="languageButton_Dank" Content="朝鮮語" HorizontalAlignment="Left" Margin="24,161,0,0" VerticalAlignment="Top" Height="34" Width="101" Click="languageButton_Click"/>
@@ -54,5 +54,9 @@
             <TextBlock x:Name="textBlock_Log" Text="Choose your bet and press Play" SelectionHighlightColor="#FF297ACC"/>
         </ScrollViewer>
         <TextBlock x:Name="textBlock_Logtext" HorizontalAlignment="Left" Margin="23,145,0,0" TextWrapping="Wrap" Text="Log:" VerticalAlignment="Top" Height="20" Width="340" Foreground="White" Grid.ColumnSpan="2" Grid.Column="2"/>
+        <Button x:Name="muteButton" Content="Mute" HorizontalAlignment="Left" Margin="146,158,0,0" VerticalAlignment="Top" Height="37" Width="71" Click="muteButton_Click" Visibility="Collapsed"/>
+        <Slider x:Name="volumeSlider" HorizontalAlignment="Left" Margin="86,230,0,0" VerticalAlignment="Top" Width="202" Background="#66000000" Value="0.5" Maximum="1" StepFrequency="0.1" ValueChanged="volumeSlider_ValueChanged" Visibility="Collapsed"/>
+        <TextBlock x:Name="volumeText" HorizontalAlignment="Left" Margin="86,212,0,0" TextWrapping="Wrap" Text="Volume:" VerticalAlignment="Top" Visibility="Collapsed"/>
+        <MediaElement x:Name="mediaElement" HorizontalAlignment="Left" Height="24" Margin="26,29,0,0" VerticalAlignment="Top" Width="100" Source="Assets/Macintosh.mp3" Volume="0.5" AutoPlay="False" AudioCategory="Media"/>
     </Grid>
 </Page>
