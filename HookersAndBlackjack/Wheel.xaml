@@ -9,7 +9,15 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-        <Image x:Name="image1" Height="141" Width="80"/>
+    <Grid Height="141" Width="80">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Gray" Offset="0."/>
+                <GradientStop Color="White" Offset="0.2"/>
+                <GradientStop Color="Gray" Offset="1"/>
+                <GradientStop Color="White" Offset="0.8"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Image x:Name="image" Height="141" Width="80" Stretch="None"/>
     </Grid>
 </Page>

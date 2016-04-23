@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -11,6 +13,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -23,10 +26,8 @@ namespace HookersAndBlackjack
     public sealed partial class Wheel : Page
     {
         public double LocationX { get; set; }
-        public double LocationZ { get; set; }
-
-
-
+        public double LocationY { get; set; }
+        Random rand = new Random();
 
         public Wheel()
         {
@@ -34,57 +35,100 @@ namespace HookersAndBlackjack
 
             Width = 80;
             Height = 141;
+
+            image.Source = new BitmapImage(new Uri(this.BaseUri, ("/Assets/9.png")));
         }
 
         /// <summary>
-        /// Rullan pyöräytys = random numero, images = kuvien määrä rullassa
+        /// Rullan pyöräytys, 8 = ei voittoa
         /// </summary>
         public int Spin()
         {
-            //kuvan vaihto
             Random rand = new Random();
-            int numero = rand.Next(1, (200 + 1));
-            if (0 < numero && numero < 11)
+            int numero = rand.Next(0, 11);
+            if (numero < 3)
             {
-                //kuvan vaihto
-                return 5;
+                return Winning();
             }
-            else if (10 < numero && numero < 19)
+            else return Losing();
+        }
+
+        private int Losing()
+        {
+            int number;
+            string comb = "";
+            for (int i = 1; i < 3; i++)
             {
-                //kuvan vaihto
-                return 4;
+                number = rand.Next(1, 6);
+                comb += number.ToString();
             }
-            else if (18 < numero && numero < 24)
+
+            for (int i = 1; i < 2; i++)
             {
-                //kuvan vaihto
+                number = rand.Next(1, 6);
+                if (comb.Contains(number.ToString()) == true)
+                {
+                    i--;
+                }
+                else
+                {
+                    comb += number.ToString();
+                }
+            }
+            return int.Parse(comb);
+        }
+        //winning %
+        private int Winning()
+        {
+            int numero = rand.Next(0, 101);
+            if (numero < 21) //25% --> 1x
+            {
+                return 555;
+            }
+            else if (numero < 56) //30% --> 2x
+            {
+                return 444;
+            }
+            else if (numero < 76) //20% --> 4x
+            {
+                return 333;
+            }
+            else if (numero < 91) //15% --> 5x
+            {
+                return 222;
+            }
+            else //10% --> 10x
+            {
+                return 111;
+            }
+        }
+
+        public void SetLocation()
+        {
+            SetValue(Canvas.LeftProperty, LocationX);
+            SetValue(Canvas.TopProperty, LocationY);
+        }
+
+        public void ImageChange(int imagenumber)
+        {
+            image.Source = new BitmapImage(new Uri(BaseUri, ("/Assets/" + imagenumber.ToString() + ".png")));
+        }
+        
+        /// <summary>
+        /// DoubleWheelSpin, 3=win, 8=lose
+        /// </summary>
+        /// <returns></returns>
+        public int DoubleSpin()
+        {
+            int numero = rand.Next(0, 11);
+            if (numero < 4)
+            {
                 return 3;
-            }
-            else if (24 < numero && numero < 28)
-            {
-                //kuvan vaihto
-                return 2;
-            }
-            else if (numero == 28)
-            {
-                //kuvan vaihto
-                return 1;
             }
             else
             {
-                //kuvan vaihto
-                return 0;
+                return 8;
             }
         }
     }
 }
-
-//voittotaulukko
-/*
-3 Wheels        Double
-1. 25x	1/28    1-3 = 10/28
-2. 10x	3/28    4-5 = 18/28
-3. 5x   6/28    
-4. 2x	8/28    
-5. 1x	10/28   
-0-10-18-24-27-28
-*/

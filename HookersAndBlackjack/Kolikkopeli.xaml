@@ -39,11 +39,12 @@
                 <ColumnDefinition Width="360"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="button_Play" Content="Play" HorizontalAlignment="Left" Margin="30,41,0,0" VerticalAlignment="Top" Grid.Row="1" Foreground="Black" Background="Gray" Height="55" Width="100" Click="button_Play_Click"/>
-            <Button x:Name="button_Double" Content="Double" HorizontalAlignment="Left" Margin="230,41,0,0" VerticalAlignment="Top" Grid.Row="1" Background="Gray" Height="55" Width="100"/>
-            <Slider x:Name="slider_Bet" HorizontalAlignment="Left" Margin="56,112,0,0" VerticalAlignment="Top" Width="233" Grid.Row="1" RenderTransformOrigin="0,0.5" Height="44" />
+            <Button x:Name="button_Double" Content="Double" HorizontalAlignment="Left" Margin="230,41,0,0" VerticalAlignment="Top" Grid.Row="1" Background="Gray" Height="55" Width="100" IsEnabled="False" Click="button_Double_Click"/>
+            <Slider x:Name="slider_Bet" HorizontalAlignment="Left" Margin="56,112,0,0" VerticalAlignment="Top" Width="233" Grid.Row="1" RenderTransformOrigin="0,0.5" Height="44"/>
             <TextBlock x:Name="textBlock_Bet" HorizontalAlignment="Left" Margin="145,64,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=slider_Bet}" VerticalAlignment="Top" Grid.Row="1" Height="32" Width="70" TextAlignment="Center"/>
             <TextBlock x:Name="textBlock_Money" HorizontalAlignment="Left" Margin="56,156,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="172" Grid.Row="1" Height="20"/>
-            <Canvas x:Name="MyCanvas" HorizontalAlignment="Left" Height="141" Margin="10,213,0,0" VerticalAlignment="Top" Width="340"/>
+            <Canvas x:Name="MyCanvas" HorizontalAlignment="Left" Margin="10,0,0,10" Width="340" Height="141" VerticalAlignment="Bottom">
+            </Canvas>
             <Image x:Name="image_Prizes" HorizontalAlignment="Right" Height="124" Margin="0,10,10,0" VerticalAlignment="Top" Width="340"/>
         </Grid>
         <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left"  Margin ="24,0,0,24" VerticalAlignment="Bottom" Background="#33CD6E0F" Height="50" Width="100" Click="backButton_Click" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic"/>

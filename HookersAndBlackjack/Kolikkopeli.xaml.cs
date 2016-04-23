@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HookersAndBlackjack.Model;
 using Windows.UI;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,8 +32,6 @@ namespace HookersAndBlackjack
         public static double CanvasWidth;
         public static double CanvasHeight;
 
-        //Voitetut rahat jotka siirretään tilille
-        int winnings = 0;
         //Player player = "valittu pelaaja classi";
 
         public Kolikkopeli()
@@ -41,44 +40,38 @@ namespace HookersAndBlackjack
 
             CanvasWidth = MyCanvas.Width;
             CanvasHeight = MyCanvas.Height;
-            kolikkopeli = new KPeli(MyCanvas);
+            kolikkopeli = new KPeli(MyCanvas, textBlock_Money, textBlock_Log, button_Play, slider_Bet,button_Double);
 
             //testirahaa
             player.Money = 200;
-            TextMoney();
+            textBlock_Money.Text = "Money: " + player.Money.ToString();
+            slider_Bet.Maximum = player.Money;
         }
 
-        
+
         // Play napin painaminen, pelin aloitus
         private void button_Play_Click(object sender, RoutedEventArgs e)
         {
+            
             int bet = int.Parse(textBlock_Bet.Text);
+            button_Double.IsEnabled = false;
 
             //tarkistus, riittääkö rahat
             if (player.Money >= bet && bet != 0)
             {
-                //jos, niin:
-                //Rulluen pyöräytys
-                int combination = kolikkopeli.Play(); //--> rullien combinaatio
-
-                //Voitot/Häviöt
-                winnings = kolikkopeli.CheckWin(combination, bet);
-                player.Money += winnings;
-                TextMoney();
-                if (winnings > 0)
-                {
-                    LogAdd("You won " + winnings.ToString());
-                }
-                else
-                {
-                    LogAdd("You lost " + ((-1) * winnings).ToString());
-                }
+                //Disable play-button
+                button_Play.IsEnabled = false;
+                //Reset all
+                kolikkopeli.Reset();
+                //play
+                kolikkopeli.Play(bet, player);
             }
             //jos ei:
             else
             {
-                LogAdd("Not enough money!");
+                kolikkopeli.LogAdd("Not enough money!", textBlock_Log);
             }
+
         }
 
         //Back-napin painaminen
@@ -96,30 +89,10 @@ namespace HookersAndBlackjack
         }
 
         //Tuplaus
-        /*
-                //button_Double.isPressed())
-                {
-                    if(kolikkopeli.Double() == 1)
-                    {
-                        player.TakeMoney(winnings);
-                        winnings = winnings * 2;
-                        //player.AddMoney(winnings);
-                    }
-                    else
-                    {
-                        player.TakeMoney(winnings)
-                    }
-                }
-                    */
-
-        private void LogAdd(string text)
+        private void button_Double_Click(object sender, RoutedEventArgs e)
         {
-            textBlock_Log.Text = text + Environment.NewLine + textBlock_Log.Text;
-        }
+            kolikkopeli.Double();
 
-        private void TextMoney()
-        {
-            textBlock_Money.Text = "Money: " + player.Money.ToString();
         }
 
         //Teemavalitsin
@@ -170,6 +143,7 @@ namespace HookersAndBlackjack
                 mediaElement.Volume = volumeSlider.Value;
             }
         }
+
     }
 
 }
