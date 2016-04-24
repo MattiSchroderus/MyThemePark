@@ -10,20 +10,31 @@ using Windows.UI.Xaml.Controls;
 
 namespace HookersAndBlackjack.Model
 {
+    /// <summary>
+    /// Kolikkopeli
+    /// </summary>
     public class KPeli
     {
+        //Wheels
         Wheel wheel1 = new Wheel() { LocationX = 0 , LocationY = 0};
         Wheel wheel2 = new Wheel() { LocationX = 86, LocationY = 0};
         Wheel wheel3 = new Wheel() { LocationX = 172, LocationY = 0};
         Wheel wheelDouble = new Wheel() { LocationX = 260, LocationY = 0};
+        //Wheel list
         List<Wheel> wheels = new List<Wheel>();
+
         int combination = 0;
+        public int winnings = 0;
+        int wheelnumber = 0;
+        Random rnd = new Random();
+        
+        //Timer settings
         int timesTicked = 1;
         int timesToTick = 3;
-        Random rnd = new Random();
         DispatcherTimer dispatcherTimer;
-        int wheelnumber = 0;
-        public int winnings = 0;
+
+        //KPeli settings
+        private Canvas canvas;
         int bet;
         Player player;
         TextBlock tbMoney;
@@ -31,16 +42,23 @@ namespace HookersAndBlackjack.Model
         Button button_play;
         Button button_Double;
         Slider slider_Bet;
-
-        private Canvas canvas;
+        
+        //Double settings
         private int doublebool;
-
-        //MediaElement mediaElement = new MediaElement();
-
+        
+        /// <summary>
+        /// KPeli
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="tbMoney"></param>
+        /// <param name="tbLog"></param>
+        /// <param name="button_play"></param>
+        /// <param name="slider_Bet"></param>
+        /// <param name="button_Double"></param>
         public KPeli(Canvas canvas, TextBlock tbMoney, TextBlock tbLog, Button button_play,Slider slider_Bet,Button button_Double)
         {
+            //UI elements
             this.canvas = canvas;
-
             this.tbMoney = tbMoney;
             this.tbLog = tbLog;
             this.button_play = button_play;
@@ -67,8 +85,14 @@ namespace HookersAndBlackjack.Model
             canvas.Children.Add(wheelDouble);    
         }
 
+        /// <summary>
+        /// Play-method
+        /// </summary>
+        /// <param name="bet"></param>
+        /// <param name="player"></param>
         public void Play(int bet, Player player)
         {
+            //player, bet
             this.bet = bet;
             this.player = player;
             
@@ -78,50 +102,57 @@ namespace HookersAndBlackjack.Model
             {
                 wheel.ImageChange(9);
             }
-
-            DispatcherTimerSetup();
+            
+            DispatcherTimerSetup(); //Setup Timer
         }
 
-        //Timer
+        /// <summary>
+        /// Play-timerSetup
+        /// </summary>
         public void DispatcherTimerSetup()
         {
+            //Timer setups
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 400);
             Debug.WriteLine("dispatcherTimer.IsEnabled = " + dispatcherTimer.IsEnabled + "\n");
             Debug.WriteLine("Calling dispatcherTimer.Start()\n");
-            //combination
+            
+            //get combination
             combination = wheel1.Spin();
+            Debug.WriteLine(combination.ToString());
             
             //start timer
             dispatcherTimer.Start();
             Debug.WriteLine("dispatcherTimer.IsEnabled = " + dispatcherTimer.IsEnabled + "\n");
         }
 
-        //Timer tick
+        /// <summary>
+        /// Play-Timer ticks
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void dispatcherTimer_Tick(object sender, object e)
         {
-            //kuvan vaihto
-            wheels[wheelnumber].ImageChange(int.Parse(combination.ToString().Substring(wheelnumber,1)));
+            wheels[wheelnumber].ImageChange(int.Parse(combination.ToString().Substring(wheelnumber,1))); //Change images
 
+            //next wheel, next tick
             wheelnumber++;
             timesTicked++;
 
+            //Final tick
             if (timesTicked > timesToTick)
             {
                 //stop timer
                 dispatcherTimer.Stop();
                 Debug.WriteLine("dispatcherTimer.IsEnabled = " + dispatcherTimer.IsEnabled + "\n");
-                LogAdd(combination.ToString(), tbLog);
+                
+                winnings = CheckWin(bet); //Get winnings
 
-                //Winnings
-                winnings = CheckWin(bet);
+                player.Money += winnings; //Add winnings to player.Money
 
-                //Log tekstit
-
-                player.Money += winnings;
-                TextMoney(tbMoney);
-
+                TextMoney(tbMoney); //Money textblock = player.Money
+                //Add log texts
                 if (winnings > 0)
                 {
                     LogAdd("You won " + winnings.ToString(),tbLog);
@@ -131,12 +162,15 @@ namespace HookersAndBlackjack.Model
                 {
                     LogAdd("You lost " + ((-1) * winnings).ToString(),tbLog);
                 }
+                //Ui settings
                 button_play.IsEnabled = true;
                 slider_Bet.Maximum = player.Money;
-
             }
         }
 
+        /// <summary>
+        /// Reset KPeli settings
+        /// </summary>
         public void Reset()
         {
             combination = 0;
@@ -144,22 +178,44 @@ namespace HookersAndBlackjack.Model
             timesToTick = 3;
             wheelnumber = 0;
             winnings = 0;
-            wheelDouble.ImageChange(9);
+            wheelDouble.ImageChange(9); //wheel images --> [?]
 
         }
 
+        /// <summary>
+        /// Change imagepaths
+        /// </summary>
+        /// <param name="pathnumber"></param>
+        internal void ChangePath(int pathnumber)
+        {
+            foreach(Wheel wheel in wheels)
+            {
+                wheel.ChangePath(pathnumber);
+            }
+            wheelDouble.ChangePath(pathnumber);
+        }
+
+        /// <summary>
+        /// Change MoneyTextBlock text --> player.Money
+        /// </summary>
+        /// <param name="tb"></param>
         public void TextMoney(TextBlock tb)
         {
             tb.Text = "Money: " + player.Money.ToString();
         }
 
+        /// <summary>
+        /// Add text to LogTextBlock
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="tbLog"></param>
         public void LogAdd(string text,TextBlock tbLog)
         {
             tbLog.Text = text + Environment.NewLine + tbLog.Text;
         }
 
         /// <summary>
-        /// Tuplaus, palauttaa 1=onnistui 0=epäonnistui
+        /// Double, 1=yes 0=no
         /// </summary>
         public void Double()
         {
@@ -167,49 +223,53 @@ namespace HookersAndBlackjack.Model
             DispatcherTimerSetupDouble();
         }
         
-        //Timer
+        /// <summary>
+        /// Double Timer setup
+        /// </summary>
         public void DispatcherTimerSetupDouble()
         {
+            //timer setups
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_TickDouble;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 400);
             Debug.WriteLine("dispatcherTimer.IsEnabled = " + dispatcherTimer.IsEnabled + "\n");
             Debug.WriteLine("Calling dispatcherTimer.Start()\n");
-            //True/false
-            doublebool = wheel1.DoubleSpin();
+            
+            doublebool = wheel1.DoubleSpin(); //Get double, 1=win, 0=lose
 
             //start timer
             dispatcherTimer.Start();
             Debug.WriteLine("dispatcherTimer.IsEnabled = " + dispatcherTimer.IsEnabled + "\n");
         }
 
-        //Timer tick
+        /// <summary>
+        /// Double Timer ticks
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void dispatcherTimer_TickDouble(object sender, object e)
         {
-            //kuvan vaihto
-            wheelDouble.ImageChange(doublebool);
+            wheelDouble.ImageChange(doublebool); //Change doublewheel image
 
             //stop timer
             dispatcherTimer.Stop();
             Debug.WriteLine("dispatcherTimer.IsEnabled = " + dispatcherTimer.IsEnabled + "\n");
-            LogAdd(doublebool.ToString(), tbLog);
 
-            //Winnings
+            //Add winnings to player.Money
             if(doublebool == 3)
             {
-                player.Money -= winnings;
-                winnings = winnings*2;
+                player.Money -= winnings; //takes old winnings from player.Money
+                winnings = winnings*2; //doubles winnigns
             }
             else
             {
                 winnings = -(winnings);
             }
 
-            //Log tekstit
+            player.Money += winnings; //Add new winnings to player.Money
+            TextMoney(tbMoney); //Add text to MoneyTextBlock
 
-            player.Money += winnings;
-            TextMoney(tbMoney);
-
+            //Add text to LogTextBlock
             if (winnings > 0)
             {
                 LogAdd("You won " + winnings.ToString(), tbLog);
@@ -219,11 +279,12 @@ namespace HookersAndBlackjack.Model
                 LogAdd("You lost " + ((-1) * winnings).ToString(), tbLog);
                 button_Double.IsEnabled = false;
             }
+            //ui element settings
             slider_Bet.Maximum = player.Money;
         }
 
         /// <summary>
-        /// Tarkistaa voitot, palauttaa bet * x
+        /// Checks how much player won
         /// </summary>
         public int CheckWin(int bet)
         {

@@ -136,6 +136,13 @@
     <Content Include="Assets\4.png" />
     <Content Include="Assets\5.png" />
     <Content Include="Assets\9.png" />
+    <Content Include="Assets\dank\1.png" />
+    <Content Include="Assets\dank\2.png" />
+    <Content Include="Assets\dank\3.png" />
+    <Content Include="Assets\dank\4.png" />
+    <Content Include="Assets\dank\5.png" />
+    <Content Include="Assets\dank\8.png" />
+    <Content Include="Assets\dank\9.png" />
     <Content Include="Assets\Macintosh.mp3" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

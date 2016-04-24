@@ -25,22 +25,28 @@ namespace HookersAndBlackjack
     /// </summary>
     public sealed partial class Wheel : Page
     {
+        //Wheel settings
         public double LocationX { get; set; }
         public double LocationY { get; set; }
         Random rand = new Random();
+        //image path
+        private string path = "/Assets/";
 
+        /// <summary>
+        /// Wheel setup
+        /// </summary>
         public Wheel()
         {
             this.InitializeComponent();
-
+            //W,H
             Width = 80;
             Height = 141;
-
+            //default image = [?]
             image.Source = new BitmapImage(new Uri(this.BaseUri, ("/Assets/9.png")));
         }
 
         /// <summary>
-        /// Rullan pyöräytys, 8 = ei voittoa
+        /// Get wheel combination
         /// </summary>
         public int Spin()
         {
@@ -48,13 +54,18 @@ namespace HookersAndBlackjack
             int numero = rand.Next(0, 11);
             if (numero < 3)
             {
-                return Winning();
+                return Winning(); //if random number < 3, player wins
             }
-            else return Losing();
+            else return Losing(); //else player loses
         }
 
+        /// <summary>
+        /// Player loses
+        /// </summary>
+        /// <returns></returns>
         private int Losing()
         {
+            //Get random combination XYZ, Z!=X
             int number;
             string comb = "";
             for (int i = 1; i < 3; i++)
@@ -77,9 +88,15 @@ namespace HookersAndBlackjack
             }
             return int.Parse(comb);
         }
-        //winning %
+        
+
+        /// <summary>
+        /// Player wins
+        /// </summary>
+        /// <returns></returns>
         private int Winning()
         {
+            //winnings
             int numero = rand.Next(0, 101);
             if (numero < 21) //25% --> 1x
             {
@@ -103,19 +120,26 @@ namespace HookersAndBlackjack
             }
         }
 
+        /// <summary>
+        /// Set wheel location on canvas
+        /// </summary>
         public void SetLocation()
         {
             SetValue(Canvas.LeftProperty, LocationX);
             SetValue(Canvas.TopProperty, LocationY);
         }
 
+        /// <summary>
+        /// Change wheel image
+        /// </summary>
+        /// <param name="imagenumber"></param>
         public void ImageChange(int imagenumber)
         {
-            image.Source = new BitmapImage(new Uri(BaseUri, ("/Assets/" + imagenumber.ToString() + ".png")));
+            image.Source = new BitmapImage(new Uri(BaseUri, (path + imagenumber.ToString() + ".png")));
         }
         
         /// <summary>
-        /// DoubleWheelSpin, 3=win, 8=lose
+        /// Double, 3=win, 8=lose
         /// </summary>
         /// <returns></returns>
         public int DoubleSpin()
@@ -128,6 +152,21 @@ namespace HookersAndBlackjack
             else
             {
                 return 8;
+            }
+        }
+        /// <summary>
+        /// Change imagepaths, 1=dank, 0=normal
+        /// </summary>
+        /// <param name="pathnumber"></param>
+        public void ChangePath(int pathnumber)
+        {
+            if(pathnumber == 1)
+            {
+                path = "/Assets/dank/";
+            }
+            else
+            {
+                path = "/Assets/";
             }
         }
     }
