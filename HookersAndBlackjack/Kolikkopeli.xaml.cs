@@ -28,7 +28,7 @@ namespace HookersAndBlackjack
     {
         //settings
         private KPeli kolikkopeli;
-        Player player = new Player("testaaja", 1);
+        Player player = new Player("testaaja");
 
         public static double CanvasWidth; //canvas W for wheels
         public static double CanvasHeight; //canvas H for wheels

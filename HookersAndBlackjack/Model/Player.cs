@@ -11,7 +11,7 @@ namespace HookersAndBlackjack.Model
     /// </summary>
     public class Player
     {
-        private string Name { get; set; }
+        public string Name { get; set; }
         public int AI { get; set; }
         public int Money { get; set; }
         public int Chips { get; set; }
@@ -19,10 +19,10 @@ namespace HookersAndBlackjack.Model
         public int Games { get; set; }
         public int Loans { get; set; }
 
-        public Player(string name, int ai)
+        public Player(string name)
         {
             Name = name;
-            AI = ai;
+            Chips = 0;
         }
     }
 
