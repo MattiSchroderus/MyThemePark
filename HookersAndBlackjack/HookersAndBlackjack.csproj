@@ -143,7 +143,9 @@
     <Content Include="Assets\dank\5.png" />
     <Content Include="Assets\dank\8.png" />
     <Content Include="Assets\dank\9.png" />
+    <Content Include="Assets\dank\taulu.png" />
     <Content Include="Assets\Macintosh.mp3" />
+    <Content Include="Assets\taulu.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
