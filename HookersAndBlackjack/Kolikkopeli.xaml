@@ -52,7 +52,7 @@
         <TextBlock x:Name="languageText" HorizontalAlignment="Left" Margin="25,88,0,0" TextWrapping="Wrap" Text="Language:" VerticalAlignment="Top" FontFamily="Showcard Gothic"/>
         <Button x:Name="languageButton_Dank" Content="朝鮮語" HorizontalAlignment="Left" Margin="24,161,0,0" VerticalAlignment="Top" Height="34" Width="101" Click="languageButton_Click" FontFamily="Showcard Gothic"/>
         <ScrollViewer HorizontalAlignment="Left" Height="315" Margin="23,171,0,0" VerticalAlignment="Top" Width="224" Background="White" VerticalScrollMode="Auto" Grid.Column="2">
-            <TextBlock x:Name="textBlock_Log" Text="Choose your bet and press Play" SelectionHighlightColor="#FF297ACC" FontFamily="Showcard Gothic"/>
+            <TextBlock x:Name="textBlock_Log" Text="Choose your bet and press Play" SelectionHighlightColor="#FF297ACC"/>
         </ScrollViewer>
         <TextBlock x:Name="textBlock_Logtext" HorizontalAlignment="Left" Margin="23,145,0,0" TextWrapping="Wrap" Text="Log:" VerticalAlignment="Top" Height="20" Width="340" Foreground="White" Grid.ColumnSpan="2" Grid.Column="2"/>
         <Button x:Name="muteButton" Content="Mute" HorizontalAlignment="Left" Margin="146,158,0,0" VerticalAlignment="Top" Height="37" Width="71" Click="muteButton_Click" Visibility="Collapsed"/>

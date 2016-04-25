@@ -55,41 +55,63 @@ namespace HookersAndBlackjack
             this.Frame.Navigate(typeof(Tilastot));
         }
 
+        /// <summary>
+        /// when combobox selection is changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            player = ((sender as ComboBox).SelectedItem as Player);
-            if(player != null)
+            player = ((sender as ComboBox).SelectedItem as Player); //player is combobox selection
+            //if selection is player
+            if (player != null)
             {
             MoneyBox.Text = "Money: " + player.Money.ToString();
             ChipBox.Text = "Chips: " + player.Chips.ToString();
             }
-            else { Debug.WriteLine("Error: combobox error"); }
+            else { Debug.WriteLine("Error: combobox error"); } //if not
         }
-
-        private void button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// New... button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void newButton_Click(object sender, RoutedEventArgs e)
         {
-            newProfileStackPanel.Visibility = Visibility.Visible;
+            newProfileStackPanel.Visibility = Visibility.Visible; //show new profile block, button
         }
-
+        /// <summary>
+        /// when new profile text box is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void newProfileTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            newProfileTextBox.Text = "";
+            newProfileTextBox.Text = ""; //erase block text
         }
 
+        /// <summary>
+        /// NewProfile Button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void newProfileButton_Click(object sender, RoutedEventArgs e)
         {
+            //create new message dialog box
             MessageDialog messageDialog = new MessageDialog("");
             messageDialog.Commands.Add(new UICommand("Ok"));
-            if (newProfileTextBox.Text != "" && newProfileTextBox.Text != "Profile name...")
+            //check if new profile name is empty or default text
+            if (newProfileTextBox.Text != "" && newProfileTextBox.Text != "Profile name...") //if not
             {
-                Player newplayer = new Player(newProfileTextBox.Text);
-                await AddPlayer(newplayer);
-                PlayerRefresh();
-                messageDialog.Content = "Profile " + newProfileTextBox.Text + " created";
+                Player newplayer = new Player(newProfileTextBox.Text); //new player
+                await AddPlayer(newplayer); //adds new player to players.txt
+                PlayerRefresh(); //refresh playerlist
+                messageDialog.Content = "Profile " + newProfileTextBox.Text + " created"; //show message
                 await messageDialog.ShowAsync();
             }
-            else
+            else //if yes
             {
+                //show error
                 messageDialog.Content = "Error: Give profile name";
                 await messageDialog.ShowAsync();
             }
@@ -102,18 +124,18 @@ namespace HookersAndBlackjack
         {
             try
             {
-                players.Clear();
-                string[] lines = File.ReadAllLines("Assets/players.txt");
-                foreach (string pair in lines)
+                players.Clear(); //clears old playerlist
+                string[] lines = File.ReadAllLines("Assets/players.txt"); //get lines from players.txt
+                foreach (string pair in lines) //pair == {name} {money}
                 {
-                    int position = pair.IndexOf(" ");
+                    int position = pair.IndexOf(" "); //name ends in " "
                     if (position < 0) { continue; }
                     else
                     {
-                        string name = pair.Substring(0, position);
-                        int money = int.Parse(pair.Substring(position + 1));
-                        players.Add(player = new Player(name));
-                        player.Money = money;
+                        string name = pair.Substring(0, position); //name ends in " "
+                        int money = int.Parse(pair.Substring(position + 1)); //money is rest
+                        players.Add(player = new Player(name)); //Add player to players list
+                        player.Money = money; //give money to player
                     }
                 }
             }
@@ -122,6 +144,11 @@ namespace HookersAndBlackjack
                 Debug.WriteLine("error: File Not Found");
             }
         }
+        /// <summary>
+        /// Add player to players.txt
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public async Task AddPlayer(Player player)
         {
             try
@@ -134,16 +161,15 @@ namespace HookersAndBlackjack
                 string text = File.ReadAllText("Assets/players.txt");
                 text += Environment.NewLine + player.Name + " " + player.Money.ToString();
 
-                //write sring to created file
+                //write string to created file
                 await FileIO.WriteTextAsync(file, text);
 
-                //get assets folder
+                //get Assets folder
                 StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
                 StorageFolder assetsFolder = await appInstalledFolder.GetFolderAsync("Assets");
 
-                //move file from public folder to assets
+                //move file from public folder to Assets folder
                 await file.MoveAsync(assetsFolder, "players.txt", NameCollisionOption.ReplaceExisting);
-
             }
             catch (Exception ex)
             {
