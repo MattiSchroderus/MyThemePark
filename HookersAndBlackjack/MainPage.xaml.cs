@@ -112,8 +112,14 @@ namespace HookersAndBlackjack
                     playerlist.Add(pla);
                 }
                 int findbool = FindPlayer();
-                //checks if profile name used
-                if (findbool == 1) //if not
+                //checks if profile name uses spaces
+                if(newProfileTextBox.Text.Contains(" ") == true)
+                {
+                    messageDialog.Content = "Error: No names with spaces";
+                    await messageDialog.ShowAsync();
+                }
+                //checks if profile name taken
+                else if (findbool == 1) //if not
                 {
                     Player newplayer = new Player(newProfileTextBox.Text); //new player
                     await AddPlayer(newplayer); //adds new player to players.txt
@@ -124,7 +130,7 @@ namespace HookersAndBlackjack
                 }
                 else //if yes
                 {
-                    messageDialog.Content = "Error: Name used";
+                    messageDialog.Content = "Error: Name taken";
                     await messageDialog.ShowAsync();
                 }
             }
