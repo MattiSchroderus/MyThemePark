@@ -68,7 +68,7 @@
             <TextBlock x:Name="ChipBox" Margin="0,0,41,0" TextWrapping="Wrap" Text="Chips: " FontSize="24" Width="187" Height="32" VerticalAlignment="Center"/>
             <Button x:Name="button" Content="New..." HorizontalAlignment="Center" Height="32" VerticalAlignment="Center" Click="button_Click"/>
         </StackPanel>
-        <StackPanel Name="newProfileStackPanel" Grid.Column="2" HorizontalAlignment="Left" Height="66" Margin="10,164,0,0" Grid.Row="3" VerticalAlignment="Top" Width="213">
+        <StackPanel Name="newProfileStackPanel" Grid.Column="2" HorizontalAlignment="Left" Height="66" Margin="87,137,0,0" Grid.Row="3" VerticalAlignment="Top" Width="213">
             <TextBox x:Name="newProfileTextBox" TextWrapping="Wrap" Text="Profile name..." Height="27" TextAlignment="Center" GotFocus="newProfileTextBox_GotFocus"/>
             <Button x:Name="newProfileButton" Content="Create new profile" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="newProfileButton_Click"/>
         </StackPanel>

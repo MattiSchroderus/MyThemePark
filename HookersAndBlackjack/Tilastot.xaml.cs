@@ -71,11 +71,11 @@ namespace HookersAndBlackjack
             }
         }
 
-        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Listview_selectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            player = ((sender as ComboBox).SelectedItem as Player);
             MoneyBox.Text = "Money: " + player.Money.ToString();
             ChipBox.Text = "Chips: " + player.Chips.ToString();
+
         }
     }
 }
