@@ -109,15 +109,22 @@ namespace HookersAndBlackjack
 
         private void Hit_Click(object sender, RoutedEventArgs e)
         {
+            // Tämä muuttaa ListBufferin arvoa.
             ListBuffer = "Hit";
-            DebugScreen.Text += DebugStr;
-            //autoResetEvent.Set();
+            // Debug viestejä:
+            DebugScreen.Text += "Hit stuff\n";
+            // Tämä vapauttaa rotaattorin
             signal.Release();
-            // Nämä on ehkä turhia:
-            /*
-            House.Hit();
-            House.Checker();
-            */
+        }
+
+        private void Pass_Click(object sender, RoutedEventArgs e)
+        {
+            // Tämä muuttaa ListBufferin arvoa.
+            ListBuffer = "Pass";
+            // Debug viestejä:
+            DebugScreen.Text += "Pass has been pressed\n";
+            // Tämä vapauttaa rotaattorin
+            signal.Release();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -133,18 +140,9 @@ namespace HookersAndBlackjack
             }
         }
 
-        // Tämä on asyncroninen tehtävä joka odottaa että ListBuffer muuttuja
-        // muuttuu. Kun ListBuffer muuttuu se ottaa uuden arvon ja lähettää
-        // sen eteen päin. Changer muutettu ListBufferiksi.
-        // TaskMasteri on ehkä turha.
-        private void TaskMaster()
+        private Table Rotator(Table House, string DebugStr)
         {
-            throw new NotImplementedException();
-        }
-
-        private async void Rotator(Table House, string DebugStr)
-        {
-            DebugStr += "Imma thread now\n";
+            House.DebugMessage += "Imma thread now\n";
             autoResetEvent = new AutoResetEvent(false);
             // Taaskin intelligence arvon voisi tiputtaa ja tehdä jostain
             // kokonais luvusta pelaaja arvon. Vaikka nullista.
@@ -173,25 +171,27 @@ namespace HookersAndBlackjack
                 // default kohtaan ja suorittaisi siellä olevat komennot
                 if (f.Intelligence == true)
                 {
-                    House.tester = true;
-                    DebugStr += "Dem players\n";
-                    // Pupup on yks tapa kysyä pelaajan inputtia.
-                    // Tosin omasta mielestä tämä ei ole niin hieno
-                    // Tapa ottaa inputtia, koska se pysäyttää loopin.
-                    // House.Popup();
-                    //autoResetEvent.WaitOne();
-                    // Tämän pitäisi odotella nappulan painallusta
-                    await signal.WaitAsync();
-                    DebugStr += "Back in dreads\n";
-                    switch (ListBuffer)
+                    // Tämä luo loopin joka odottaa että pelaaja lopettaa vuoronsa
+                    bool b = true;
+                    while (b == true)
                     {
-                        case "Hit":
-                            DebugStr += "Tap dat thread\n";
-                            House.Hit();
-                            House.Checker();
-                            break;
-                        default:
-                            break;
+                        // Tämän pitäisi odotella nappulan painallusta
+                        Task task = Task.Run(() => Waiter());
+                        task.Wait();
+                        switch (ListBuffer)
+                        {
+                            case "Hit":
+                                House.DebugMessage += "Tap dat thread\n";
+                                House.Hit();
+                                House.Checker();
+                                ListBuffer = "";
+                                break;
+                            case "Pass":
+                                b = false;
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
                 else
@@ -213,21 +213,12 @@ namespace HookersAndBlackjack
                 }
             }
             House.DebugMessage = DebugStr;
+            return House;
         }
 
         private async void Waiter()
         {
-
-        }
-
-        private void Pass_Click(object sender, RoutedEventArgs e)
-        {
-            // Tämä muuttaa ListBufferin arvoa.
-            ListBuffer = "Hit";
-            // Tämä vapauttaa rotaattorin
-            signal.Release();
-            // Debug viestejä:
-            DebugScreen.Text += "Pass has been pressed\n";
+            await signal.WaitAsync();
         }
     }
 }
