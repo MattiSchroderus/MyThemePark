@@ -28,7 +28,6 @@ namespace HookersAndBlackjack
     /// </summary>
     public sealed partial class Blackjack : Page
     {
-        private AutoResetEvent autoResetEvent;
         private SemaphoreSlim signal = new SemaphoreSlim(0, 1);
 
         private Table House = new Table();
@@ -57,7 +56,10 @@ namespace HookersAndBlackjack
             try
             {
                 House.Deal();
-                House.Checker();
+                for (int i = 0; i < House.PlayerList.Count; i++)
+                {
+                    House.PlayerList[i].Checker();
+                }
             }
             catch
             {
@@ -82,7 +84,6 @@ namespace HookersAndBlackjack
         private void Deal_Click(object sender, RoutedEventArgs e)
         {
             House.Deal();
-            House.Checker();
         }
 
         private void DebugButton_Click(object sender, RoutedEventArgs e)
@@ -107,6 +108,12 @@ namespace HookersAndBlackjack
             }
         }
 
+        private void Go_Click(object sender, RoutedEventArgs e)
+        {
+            // Tämä vapauttaa rotaattorin
+            signal.Release();
+        }
+
         private void Hit_Click(object sender, RoutedEventArgs e)
         {
             // Tämä muuttaa ListBufferin arvoa.
@@ -117,15 +124,6 @@ namespace HookersAndBlackjack
             signal.Release();
         }
 
-        private void Pass_Click(object sender, RoutedEventArgs e)
-        {
-            // Tämä muuttaa ListBufferin arvoa.
-            ListBuffer = "Pass";
-            // Debug viestejä:
-            DebugScreen.Text += "Pass has been pressed\n";
-            // Tämä vapauttaa rotaattorin
-            signal.Release();
-        }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
@@ -142,10 +140,9 @@ namespace HookersAndBlackjack
 
         private Table Rotator(Table House, string DebugStr)
         {
-            House.DebugMessage += "Imma thread now\n";
-            autoResetEvent = new AutoResetEvent(false);
-            // Taaskin intelligence arvon voisi tiputtaa ja tehdä jostain
-            // kokonais luvusta pelaaja arvon. Vaikka nullista.
+            Task task0 = Task.Run(() => Waiter());
+            task0.Wait();
+            // Luo yhden pelaajan. Loput on botteja
             Foe p = new Foe(true, 0);
             House.PlayerList.Add(p);
             for (int i = 0; i < 4; i++)
@@ -153,6 +150,7 @@ namespace HookersAndBlackjack
                 Foe w = new Foe(false, 10);
                 House.PlayerList.Add(w);
             }
+
             // Fisher-Yates sekoitus
             ushort n = (ushort)House.PlayerList.Count;
             while (n > 1)
@@ -163,13 +161,16 @@ namespace HookersAndBlackjack
                 House.PlayerList[k] = House.PlayerList[n];
                 House.PlayerList[n] = House.Dummy;
             }
-            // Checkkaus looppi
-            foreach (Foe f in House.PlayerList)
+
+            // Tsekkaus looppi
+            int xeon = House.PlayerList.Count;
+            for (int i = 0; i < xeon; i++)
             {
+                House.PlayerList[i].RiskMeter(House.PackNumber);
                 // Voitaisiin myös tehä niin että pelaajien kohdalla
                 // uhkarohkeus on null. silloin switchi siirtyisi
                 // default kohtaan ja suorittaisi siellä olevat komennot
-                if (f.Intelligence == true)
+                if (House.PlayerList[i].Intelligence == true)
                 {
                     // Tämä luo loopin joka odottaa että pelaaja lopettaa vuoronsa
                     bool b = true;
@@ -182,8 +183,7 @@ namespace HookersAndBlackjack
                         {
                             case "Hit":
                                 House.DebugMessage += "Tap dat thread\n";
-                                House.Hit();
-                                House.Checker();
+                                House.Hit(i);
                                 ListBuffer = "";
                                 break;
                             case "Pass":
@@ -196,19 +196,24 @@ namespace HookersAndBlackjack
                 }
                 else
                 {
-                    switch (f.Uhkarohkeus)
+                    bool b = true;
+                    while (b == true)
                     {
-                        case 0:
-                            House.Pass();
-                            break;
-                        case 10:
-                            House.Hit();
-                            break;
-                        default:
-                            // Tänne pelaajan jutut. Tai varsinaisesti ottaen
-                            // tänne tulee pelaajan valmiiksi valitsema metodi.
-                            // Jos tuon metodin voisi vaikka tallentaa.
-                            break;
+                        House.PlayerList[i].RiskMeter(House.PackNumber);
+                        House.PlayerList[i].Thinking();
+                        switch (House.PlayerList[i].vastaus)
+                        {
+                            case "Hit":
+                                House.Hit(i);
+                                House.DebugMessage += "Foe#" + i + " used hit\n";
+                                break;
+                            case "Pass":
+                                House.DebugMessage += "Foe#" + i + " used pass\n";
+                                b = false;
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
