@@ -45,19 +45,28 @@
             <TextBlock x:Name="textBlock_Money" HorizontalAlignment="Left" Margin="56,156,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="172" Grid.Row="1" Height="20"/>
             <Canvas x:Name="MyCanvas" HorizontalAlignment="Left" Margin="10,0,0,10" Width="340" Height="141" VerticalAlignment="Bottom">
             </Canvas>
-            <Image x:Name="image_Prizes" HorizontalAlignment="Right" Height="124" Margin="0,10,10,0" VerticalAlignment="Top" Width="340"/>
+            <Image x:Name="image_Prizes" HorizontalAlignment="Right" Height="150" Margin="0,10,10,0" VerticalAlignment="Top" Width="340" Source="Assets/taulu.png"/>
         </Grid>
         <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left"  Margin ="24,0,0,24" VerticalAlignment="Bottom" Background="#33CD6E0F" Height="50" Width="100" Click="backButton_Click" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic"/>
-        <Button x:Name="languageButton_Suomi" Content="Suomi" HorizontalAlignment="Left" Margin="25,122,0,0" VerticalAlignment="Top" Height="34" Width="101" Click="languageButton_Click"/>
-        <TextBlock x:Name="languageText" HorizontalAlignment="Left" Margin="25,88,0,0" TextWrapping="Wrap" Text="Language:" VerticalAlignment="Top"/>
-        <Button x:Name="languageButton_Dank" Content="朝鮮語" HorizontalAlignment="Left" Margin="24,161,0,0" VerticalAlignment="Top" Height="34" Width="101" Click="languageButton_Click"/>
+        <Button x:Name="languageButton_Suomi" Content="Suomi" HorizontalAlignment="Left" Margin="25,122,0,0" VerticalAlignment="Top" Height="34" Width="101" Click="languageButton_Click" FontFamily="Showcard Gothic"/>
+        <TextBlock x:Name="languageText" HorizontalAlignment="Left" Margin="25,88,0,0" TextWrapping="Wrap" Text="Language:" VerticalAlignment="Top" FontFamily="Showcard Gothic"/>
+        <Button x:Name="languageButton_Dank" Content="朝鮮語" HorizontalAlignment="Left" Margin="24,161,0,0" VerticalAlignment="Top" Height="34" Width="101" Click="languageButton_Click" FontFamily="Showcard Gothic"/>
         <ScrollViewer HorizontalAlignment="Left" Height="315" Margin="23,171,0,0" VerticalAlignment="Top" Width="224" Background="White" VerticalScrollMode="Auto" Grid.Column="2">
-            <TextBlock x:Name="textBlock_Log" Text="Choose your bet and press Play" SelectionHighlightColor="#FF297ACC"/>
+            <TextBlock x:Name="textBlock_Log" Text="Choose your bet and press Play" SelectionHighlightColor="#FF297ACC" FontFamily="Showcard Gothic"/>
         </ScrollViewer>
         <TextBlock x:Name="textBlock_Logtext" HorizontalAlignment="Left" Margin="23,145,0,0" TextWrapping="Wrap" Text="Log:" VerticalAlignment="Top" Height="20" Width="340" Foreground="White" Grid.ColumnSpan="2" Grid.Column="2"/>
         <Button x:Name="muteButton" Content="Mute" HorizontalAlignment="Left" Margin="146,158,0,0" VerticalAlignment="Top" Height="37" Width="71" Click="muteButton_Click" Visibility="Collapsed"/>
         <Slider x:Name="volumeSlider" HorizontalAlignment="Left" Margin="86,230,0,0" VerticalAlignment="Top" Width="202" Background="#66000000" Value="0.5" Maximum="1" StepFrequency="0.1" ValueChanged="volumeSlider_ValueChanged" Visibility="Collapsed"/>
         <TextBlock x:Name="volumeText" HorizontalAlignment="Left" Margin="86,212,0,0" TextWrapping="Wrap" Text="Volume:" VerticalAlignment="Top" Visibility="Collapsed"/>
         <MediaElement x:Name="mediaElement" HorizontalAlignment="Left" Height="24" Margin="26,29,0,0" VerticalAlignment="Top" Width="100" Source="Assets/Macintosh.mp3" Volume="0.5" AutoPlay="False" AudioCategory="Media"/>
+        <TextBlock x:Name="title" HorizontalAlignment="Right" Margin="0,23,210,0" TextWrapping="Wrap" Text="Kolikkopeli" FontSize="72" Width="444" Height="96" VerticalAlignment="Top" SelectionHighlightColor="#FFCB3829" FontFamily="Magneto" Grid.ColumnSpan="3" Foreground="Black"/>
+        <TextBlock x:Name="title2" Margin="0,23,96,0" TextWrapping="Wrap" Text="Ｋｏｌｉｋｋｏゲーム" FontSize="72" Height="96" VerticalAlignment="Top" SelectionHighlightColor="#FFCB3829" Grid.ColumnSpan="3" FontFamily="Arial" FontStyle="Italic" HorizontalAlignment="Right" Width="672" Visibility="Collapsed">
+            <TextBlock.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFD300A3" Offset="0"/>
+                    <GradientStop Color="#FF00C3A0" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBlock.Foreground>
+        </TextBlock>
     </Grid>
 </Page>

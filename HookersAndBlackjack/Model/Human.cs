@@ -8,7 +8,7 @@ namespace HookersAndBlackjack.Model
 {
     class Human : Player
     {
-        public Human(string name, int ai) : base(name, ai)
+        public Human(string name) : base(name)
         {
 
         }

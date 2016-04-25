@@ -298,5 +298,8 @@ namespace HookersAndBlackjack.Model
                 default: return -(bet);
             }
         }
+       
+
+        
     }
 }

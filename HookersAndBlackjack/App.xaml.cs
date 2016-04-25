@@ -33,6 +33,8 @@ namespace HookersAndBlackjack
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            
         }
 
         /// <summary>

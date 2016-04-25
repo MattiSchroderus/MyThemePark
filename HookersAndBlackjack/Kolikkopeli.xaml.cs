@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using HookersAndBlackjack.Model;
 using Windows.UI;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,7 +28,7 @@ namespace HookersAndBlackjack
     {
         //settings
         private KPeli kolikkopeli;
-        Player player = new Player("testaaja", 1);
+        Player player = new Player("testaaja");
 
         public static double CanvasWidth; //canvas W for wheels
         public static double CanvasHeight; //canvas H for wheels
@@ -126,6 +127,9 @@ namespace HookersAndBlackjack
                 canvas_gradient_middle.Color = Color.FromArgb(255, 161, 103, 33);
                 canvas_gradient_top.Color = Color.FromArgb(255, 0, 0, 0);
                 kolikkopeli.ChangePath(0); //Change wheel images
+                image_Prizes.Source = new BitmapImage(new Uri(BaseUri, ("/Assets/taulu.png"))); //Change imageboard image
+                title.Visibility = Visibility.Visible;
+                title2.Visibility = Visibility.Collapsed;
             }
             //else Dank
             else
@@ -143,6 +147,9 @@ namespace HookersAndBlackjack
                 canvas_gradient_middle.Color = Color.FromArgb(150, 225, 100, 200);
                 canvas_gradient_bot.Color = Color.FromArgb(150, 0, 255, 255);
                 kolikkopeli.ChangePath(1); //Change wheel images
+                image_Prizes.Source = new BitmapImage(new Uri(BaseUri, ("/Assets/dank/taulu.png"))); //Change imageboard image
+                title.Visibility = Visibility.Collapsed;
+                title2.Visibility = Visibility.Visible;
             }
         }
 
@@ -169,5 +176,7 @@ namespace HookersAndBlackjack
                 mediaElement.Volume = volumeSlider.Value; //Changes music volume to Slider value
             }
         }
+
+        
     }
 }
