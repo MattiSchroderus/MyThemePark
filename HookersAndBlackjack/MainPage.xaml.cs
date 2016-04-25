@@ -30,12 +30,14 @@ namespace HookersAndBlackjack
     {
         Player player;
         ObservableCollection<Player> players = new ObservableCollection<Player>();
+        List<Player> playerlist = new List<Player>();
 
         public MainPage()
         {
             this.InitializeComponent();
 
             PlayerRefresh();
+            Debug.WriteLine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path + "---------------------------------------");
         }
 
         private void KolikkopeliButton_Click(object sender, RoutedEventArgs e)
@@ -103,17 +105,57 @@ namespace HookersAndBlackjack
             //check if new profile name is empty or default text
             if (newProfileTextBox.Text != "" && newProfileTextBox.Text != "Profile name...") //if not
             {
-                Player newplayer = new Player(newProfileTextBox.Text); //new player
-                await AddPlayer(newplayer); //adds new player to players.txt
-                PlayerRefresh(); //refresh playerlist
-                messageDialog.Content = "Profile " + newProfileTextBox.Text + " created"; //show message
-                await messageDialog.ShowAsync();
+                //Adds players to temp playerlist
+                playerlist.Clear();
+                foreach (Player pla in players)
+                {
+                    playerlist.Add(pla);
+                }
+                int findbool = FindPlayer();
+                //checks if profile name used
+                if (findbool == 1) //if not
+                {
+                    Player newplayer = new Player(newProfileTextBox.Text); //new player
+                    await AddPlayer(newplayer); //adds new player to players.txt
+                    PlayerRefresh(); //refresh playerlist
+                    messageDialog.Content = "Profile " + newProfileTextBox.Text + " created"; //show message
+                    await messageDialog.ShowAsync();
+                    newProfileStackPanel.Visibility = Visibility.Collapsed;
+                }
+                else //if yes
+                {
+                    messageDialog.Content = "Error: Name used";
+                    await messageDialog.ShowAsync();
+                }
             }
             else //if yes
             {
                 //show error
                 messageDialog.Content = "Error: Give profile name";
                 await messageDialog.ShowAsync();
+            }
+        }
+        /// <summary>
+        /// Checks if profile name used
+        /// </summary>
+        /// <returns></returns>
+        private int FindPlayer()
+        {
+            try
+            {
+                //Checks if name in playerlist
+                int index = playerlist.FindIndex(f => f.Name == newProfileTextBox.Text);
+                if (index == -1)
+                {
+                    return 1;
+                }
+                else return 0;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return 1;
             }
         }
 
@@ -176,6 +218,49 @@ namespace HookersAndBlackjack
                 //Console.WriteLine("Some exception happened!");
                 Debug.WriteLine(ex.ToString() + ":Addplayer error");
             }
+        }
+        /// <summary>
+        /// Delete... button click , deletes selected profile
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageDialog messageDialog = new MessageDialog("Delete profile '" + player.Name + "'?");
+            messageDialog.Commands.Add(new UICommand("YES") {Id = 0 });
+            messageDialog.Commands.Add(new UICommand("NO") { Id = 1 });
+            messageDialog.DefaultCommandIndex = 0;
+            messageDialog.CancelCommandIndex = 1;
+            var result = await messageDialog.ShowAsync();
+            if (result.Label == "YES")
+            {
+                playerlist.Clear();
+                foreach (Player pla in players)
+                {
+                    playerlist.Add(pla);
+                }
+                int index = playerlist.FindIndex(f => f.Name == player.Name);
+                playerlist.RemoveAt(index);
+                string data = "";
+                foreach (Player player in playerlist)
+                {
+                    data += player.Name + " " + player.Money + Environment.NewLine;
+                }
+                StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+                StorageFile file = await storageFolder.CreateFileAsync("temp.txt", CreationCollisionOption.ReplaceExisting);
+
+                //write string to created file
+                await FileIO.WriteTextAsync(file, data);
+
+                //get Assets folder
+                StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+                StorageFolder assetsFolder = await appInstalledFolder.GetFolderAsync("Assets");
+
+                //move file from public folder to Assets folder
+                await file.MoveAsync(assetsFolder, "players.txt", NameCollisionOption.ReplaceExisting);
+                PlayerRefresh();
+            }
+            else { }
         }
     }
 }
