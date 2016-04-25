@@ -28,6 +28,7 @@
         <!--Fourth row-->
         <RelativePanel Grid.Row="3" HorizontalAlignment="Center">
             <Button x:Name="Hit" Margin="5" Width="75" Click="Hit_Click">Hit</Button>
+            <Button x:Name="Pass" Margin="5" Width="75" Click="Pass_Click" RelativePanel.RightOf="Hit">Pass</Button>
         </RelativePanel>
     </Grid>
 </Page>

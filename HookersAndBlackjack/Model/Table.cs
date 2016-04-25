@@ -14,6 +14,9 @@ namespace HookersAndBlackjack.Model
         // Kokeillaan voinko luoda jo BlackjackMenussa ton olion ja passata sitä sitten tänne.
         public int PackNumber { get; set; }
         public int StakeSize { get; set; }
+        public bool Waiter { get; set; }
+        public bool tester { get; set; }
+        public int Returner { get; set; }
         private Random rand = new Random();
 
         // Dummy pelaaja
@@ -46,6 +49,7 @@ namespace HookersAndBlackjack.Model
         // Vois laittaa erilliseen luokkaan.
         public async void Popup()
         {
+            DebugMessage += "Popup stuff";
             // create the message dialog and set its content
             var messageDialog = new MessageDialog(
                 "You thought your DDOS attack would succeed, it did not." +
@@ -66,7 +70,6 @@ namespace HookersAndBlackjack.Model
             messageDialog.DefaultCommandIndex = 0;
             // set the command to be invoked when escape is pressed
             messageDialog.DefaultCommandIndex = 1;
-
             await messageDialog.ShowAsync();
         }
         //Kuuluu Popup metodiin.
@@ -211,7 +214,7 @@ namespace HookersAndBlackjack.Model
             }
             if (u > 21)
             {
-                Popup();
+                // Popup();
             }
         }
         // Rotaattorin prototyyppi on valmis. Käyttää popuppia.
