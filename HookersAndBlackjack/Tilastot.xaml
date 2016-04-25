@@ -15,6 +15,18 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left"  Margin ="15" VerticalAlignment="Bottom" Background="#FFCD6E0F" Height="50" Width="100" Click="backButton_Click" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic"/>
+        <Grid HorizontalAlignment="Center" Height="500" VerticalAlignment="Center" Width="500">
+            <TextBlock x:Name="textBlock" Text ="{x:Bind players}" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="85" Width="480" FontFamily="Showcard Gothic" FontSize="20" />
+            <TextBlock x:Name="textBlock_Copy" Text ="{x:Bind players}" HorizontalAlignment="Left" Margin="10,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="85" Width="480" FontFamily="Showcard Gothic" FontSize="20" />
+            <TextBlock x:Name="textBlock_Copy1" Text ="{x:Bind players}" HorizontalAlignment="Left" Margin="10,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="85" Width="480" FontFamily="Showcard Gothic" FontSize="20" />
+            <TextBlock x:Name="textBlock_Copy2" Text ="{x:Bind players}" HorizontalAlignment="Left" Margin="10,270,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="85" Width="480" FontFamily="Showcard Gothic" FontSize="20" />
+        </Grid>
+        <StackPanel Height="128" VerticalAlignment="Center" Margin="0,142,38,450" HorizontalAlignment="Right" Width="187">
+            <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Profiili" FontSize="24" HorizontalAlignment="Center" Width="187" Height="32" TextAlignment="Center" FontFamily="Showcard Gothic"/>
+            <ComboBox x:Name="comboBox" Width="187" VerticalAlignment="Center" ItemsSource="{x:Bind players}" DisplayMemberPath="Name" SelectionChanged="comboBox_SelectionChanged"/>
+            <TextBlock x:Name="MoneyBox" Margin="0,0,41,0" TextWrapping="Wrap" Text="Money: " FontSize="24" Width="187" Height="32" VerticalAlignment="Center" FontFamily="Showcard Gothic"/>
+            <TextBlock x:Name="ChipBox" Margin="0,0,41,0" TextWrapping="Wrap" Text="Chips: " FontSize="24" Width="187" Height="32" VerticalAlignment="Center" FontFamily="Showcard Gothic"/>
+        </StackPanel>
 
     </Grid>
 </Page>

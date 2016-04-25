@@ -176,5 +176,7 @@ namespace HookersAndBlackjack
                 mediaElement.Volume = volumeSlider.Value; //Changes music volume to Slider value
             }
         }
+
+        
     }
 }
