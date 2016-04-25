@@ -22,8 +22,17 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <!--First row-->
-        <TextBlock FontSize="18" FontFamily="Showcard Gothic" VerticalAlignment="Center" Margin="5" Grid.Row="0">Number of packs:</TextBlock>
-        <ComboBox x:Name="PackNumber" FontSize="20" Margin="5" Width="150" Grid.Row="0" HorizontalAlignment="Right">
+        <TextBlock FontSize="18" 
+                   FontFamily="Showcard Gothic" 
+                   VerticalAlignment="Center" 
+                   Margin="5" 
+                   Grid.Row="0">Number of packs:</TextBlock>
+        <ComboBox x:Name="PackNumber" 
+                  FontSize="20" 
+                  Margin="5" 
+                  Width="150" 
+                  Grid.Row="0" 
+                  HorizontalAlignment="Right">
             <x:String>1</x:String>
             <x:String>2</x:String>
             <x:String>3</x:String>
@@ -34,7 +43,11 @@
             <x:String>8</x:String>
         </ComboBox>
         <!--Second row-->
-        <TextBlock FontSize="18" FontFamily="Showcard Gothic" VerticalAlignment="Center" Margin="5" Grid.Row="1" >Stake size:</TextBlock>
+        <TextBlock FontSize="18" 
+                   FontFamily="Showcard Gothic" 
+                   VerticalAlignment="Center"
+                   Margin="5" 
+                   Grid.Row="1" >Stake size:</TextBlock>
         <ComboBox x:Name="StakeSize" FontSize="20" Margin="5" Width="150" Grid.Row="1" HorizontalAlignment="Right">
             <x:String>1</x:String>
             <x:String>2</x:String>
@@ -44,7 +57,11 @@
             <x:String>50</x:String>
         </ComboBox>
         <!--Third row-->
-        <TextBlock x:Name="DebugScreen" FontSize="20" Margin="5" Grid.Row="2" TextWrapping="Wrap"></TextBlock>
+        <TextBlock x:Name="DebugScreen" 
+                   FontSize="20" 
+                   Margin="5" 
+                   Grid.Row="2" 
+                   TextWrapping="Wrap"></TextBlock>
         <!--Last row-->
         <Button x:Name="Play"
                 FontSize="18"

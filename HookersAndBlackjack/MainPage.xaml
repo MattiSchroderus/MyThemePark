@@ -19,7 +19,10 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="DebugScreen" Grid.Row="0" TextWrapping="Wrap" Margin="5" ></TextBlock>
+        <TextBlock x:Name="DebugScreen" 
+                   Grid.Row="0" 
+                   TextWrapping="Wrap" 
+                   Margin="5" ></TextBlock>
         <TextBlock x:Name="textBlock"
                    Grid.Row="1"
                    TextWrapping="Wrap"
