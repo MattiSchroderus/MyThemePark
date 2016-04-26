@@ -63,8 +63,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// Play button click
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void button_Play_Click(object sender, RoutedEventArgs e)
         {
             int bet = int.Parse(textBlock_Bet.Text); //Get bet
@@ -87,8 +85,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// Back button click
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             // get root frame (which show pages)
@@ -105,8 +101,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// Double button click
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void button_Double_Click(object sender, RoutedEventArgs e)
         {
             kolikkopeli.Double(); //Double
@@ -115,8 +109,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// Language Select click
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void languageButton_Click(object sender, RoutedEventArgs e)
         {
             //if Suomi
@@ -164,8 +156,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// Mute button click
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void muteButton_Click(object sender, RoutedEventArgs e)
         {
             mediaElement.Pause(); //Pause music
@@ -174,8 +164,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// Volume slider moving
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void volumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             if(kolikkopeli == null) { }
@@ -185,6 +173,10 @@ namespace HookersAndBlackjack
             }
         }
 
-        
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            player.Money += 50;
+            slider_Bet.Maximum = player.Money;
+        }
     }
 }

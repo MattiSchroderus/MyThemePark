@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace HookersAndBlackjack.Model
         public int winnings = 0;
         int wheelnumber = 0;
         Random rnd = new Random();
+        List<Player> players = new List<Player>();
         
         //Timer settings
         int timesTicked = 1;
@@ -45,16 +47,11 @@ namespace HookersAndBlackjack.Model
         
         //Double settings
         private int doublebool;
-        
+        private Player playertemp;
+
         /// <summary>
         /// KPeli
         /// </summary>
-        /// <param name="canvas"></param>
-        /// <param name="tbMoney"></param>
-        /// <param name="tbLog"></param>
-        /// <param name="button_play"></param>
-        /// <param name="slider_Bet"></param>
-        /// <param name="button_Double"></param>
         public KPeli(Canvas canvas, TextBlock tbMoney, TextBlock tbLog, Button button_play,Slider slider_Bet,Button button_Double)
         {
             //UI elements
@@ -88,8 +85,6 @@ namespace HookersAndBlackjack.Model
         /// <summary>
         /// Play-method
         /// </summary>
-        /// <param name="bet"></param>
-        /// <param name="player"></param>
         public void Play(int bet, Player player)
         {
             //player, bet
@@ -130,8 +125,6 @@ namespace HookersAndBlackjack.Model
         /// <summary>
         /// Play-Timer ticks
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         void dispatcherTimer_Tick(object sender, object e)
         {
             wheels[wheelnumber].ImageChange(int.Parse(combination.ToString().Substring(wheelnumber,1))); //Change images
@@ -165,6 +158,47 @@ namespace HookersAndBlackjack.Model
                 //Ui settings
                 button_play.IsEnabled = true;
                 slider_Bet.Maximum = player.Money;
+                UpdatePlayerData(); //Save player money to players.txt
+            }
+        }
+        /// <summary>
+        /// Player data saver
+        /// </summary>
+        private async void UpdatePlayerData()
+        {
+            try
+            {
+                PlayerRefresh(); //makes list of players
+                
+                //create file in public folder
+
+                int index = players.FindIndex(f => f.Name == player.Name); //find player index
+                players.RemoveAt(index); //remove player from list
+                //adds other players to player list
+                foreach (Player pla in players)
+                {
+                    players.Add(pla);
+                }
+                StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+                StorageFile file = await storageFolder.CreateFileAsync("temp.txt", CreationCollisionOption.ReplaceExisting);
+
+                string text = ""; //Text
+                foreach (Player player in players)
+                {
+                    text += Environment.NewLine + player.Name + " " + player.Money.ToString() + " " + player.Chips.ToString(); //add old players to text string
+                }
+                text += Environment.NewLine + player.Name + " " + player.Money.ToString() + " " + player.Chips.ToString(); //add players new data to text string
+                //write string to created file
+                await FileIO.WriteTextAsync(file, text); //write playerdata to file
+                //get Assets folder
+                StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+                StorageFolder assetsFolder = await appInstalledFolder.GetFolderAsync("Assets");
+                await file.MoveAsync(assetsFolder, "players.txt", NameCollisionOption.ReplaceExisting); //move file from public folder to Assets folder
+            }
+            catch (Exception ex)
+            {
+                //Console.WriteLine("Some exception happened!");
+                Debug.WriteLine(ex.ToString() + ":Updateplayerdata error");
             }
         }
 
@@ -179,13 +213,11 @@ namespace HookersAndBlackjack.Model
             wheelnumber = 0;
             winnings = 0;
             wheelDouble.ImageChange(9); //wheel images --> [?]
-
         }
 
         /// <summary>
         /// Change imagepaths
         /// </summary>
-        /// <param name="pathnumber"></param>
         internal void ChangePath(int pathnumber)
         {
             foreach(Wheel wheel in wheels)
@@ -198,7 +230,6 @@ namespace HookersAndBlackjack.Model
         /// <summary>
         /// Change MoneyTextBlock text --> player.Money
         /// </summary>
-        /// <param name="tb"></param>
         public void TextMoney(TextBlock tb)
         {
             tb.Text = "Money: " + player.Money.ToString();
@@ -207,8 +238,6 @@ namespace HookersAndBlackjack.Model
         /// <summary>
         /// Add text to LogTextBlock
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="tbLog"></param>
         public void LogAdd(string text,TextBlock tbLog)
         {
             tbLog.Text = text + Environment.NewLine + tbLog.Text;
@@ -245,8 +274,6 @@ namespace HookersAndBlackjack.Model
         /// <summary>
         /// Double Timer ticks
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         void dispatcherTimer_TickDouble(object sender, object e)
         {
             wheelDouble.ImageChange(doublebool); //Change doublewheel image
@@ -281,6 +308,7 @@ namespace HookersAndBlackjack.Model
             }
             //ui element settings
             slider_Bet.Maximum = player.Money;
+            UpdatePlayerData();
         }
 
         /// <summary>
@@ -298,8 +326,40 @@ namespace HookersAndBlackjack.Model
                 default: return -(bet);
             }
         }
-       
-
-        
+        /// <summary>
+        /// gets player data from players.txt
+        /// </summary>
+        public void PlayerRefresh()
+        {
+            try
+            {
+                players.Clear(); //clears old playerlist
+                string[] lines = File.ReadAllLines("Assets/players.txt"); //get lines from players.txt
+                foreach (string pair in lines) //pair == {name} {money + chips}
+                {
+                    int position = pair.IndexOf(" "); //name ends in " "
+                    if (position < 0) { continue; }
+                    else
+                    {
+                        string name = pair.Substring(0, position); //name ends in " "
+                        string moneychips = pair.Substring(position + 1); //money and chips are rest
+                        int position2 = moneychips.IndexOf(" "); //moneychips == {money} {chips}
+                        if (position2 < 0) { continue; }
+                        else
+                        {
+                            int money = int.Parse(moneychips.Substring(0, position2));
+                            int chips = int.Parse(moneychips.Substring(position2 + 1));
+                            players.Add(playertemp = new Player(name)); //Add player to players list
+                            playertemp.Money = money; //give money to player
+                            playertemp.Chips = chips;
+                        }
+                    }
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Debug.WriteLine("error: File Not Found");
+            }
+        }
     }
 }
