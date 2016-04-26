@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 namespace HookersAndBlackjack.Model
 {
-    class Kortti
+    public class Kortti
     {
         public string Suit { get; }
         public ushort Number { get; }

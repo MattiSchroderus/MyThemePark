@@ -48,7 +48,7 @@ namespace HookersAndBlackjack.Model
             Pack.Clear();
             for (int i = 0; i < PlayerList.Count; i++)
             {
-                PlayerList[i].Hand.Clear();
+                PlayerList[i].HandClear();
             }
             DebugMessage = "";
 
@@ -105,7 +105,7 @@ namespace HookersAndBlackjack.Model
                 for (n = 0; n < 2; n++)
                 {
                     x--;
-                    PlayerList[i].Hand.Add(Pack[x]);
+                    PlayerList[i].AddCard(Pack[x]);
                     Pack.RemoveAt(x);
                 }
             }
@@ -115,11 +115,8 @@ namespace HookersAndBlackjack.Model
             for (int i = 0; i < PlayerList.Count; i ++)
             {
                 if (PlayerList[i].Intelligence == true) PlayerList[i].Checker();
-                DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].Hand.Count + "\n";
-                foreach (Kortti k in PlayerList[i].Hand)
-                {
-                    DebugMessage += k.ToString();
-                }
+                DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].CardCount() + "\n";
+                DebugMessage += PlayerList[i].ToString();
             }
 
         }
@@ -133,7 +130,7 @@ namespace HookersAndBlackjack.Model
             {
                 ushort x;
                 x = (ushort)(Pack.Count - 1);
-                PlayerList[playerNumber].Hand.Add(Pack[x]);
+                PlayerList[playerNumber].AddCard(Pack[x]);
                 Pack.RemoveAt(x);
             }
             catch
@@ -150,11 +147,8 @@ namespace HookersAndBlackjack.Model
                 for (int i = 0; i < PlayerList.Count; i++)
                 {
                     if (PlayerList[i].Intelligence == true) PlayerList[i].Checker();
-                    DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].Hand.Count + "\n";
-                    foreach (Kortti k in PlayerList[i].Hand)
-                    {
-                        DebugMessage += k.ToString();
-                    }
+                    DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].CardCount() + "\n";
+                    DebugMessage += PlayerList[i].ToString();
                 }
             }
             catch(Exception ex)
