@@ -87,7 +87,7 @@ namespace HookersAndBlackjack.Model
             }
 
             // Fisher-Yates sekoitus
-            ushort n = (ushort)Pack.Count;
+            int n = Pack.Count;
             while (n > 1)
             {
                 n--;
@@ -101,7 +101,7 @@ namespace HookersAndBlackjack.Model
             for(int i = 0; i < PlayerList.Count; i++)
             {
                 // Korttien siirto käteen
-                ushort x = (ushort)Pack.Count;
+                int x = Pack.Count;
                 for (n = 0; n < 2; n++)
                 {
                     x--;
@@ -144,6 +144,9 @@ namespace HookersAndBlackjack.Model
 
             try
             {
+                DebugMessage = "";
+                // Printtaus DebugMessageen. Mä ehkä haluan luoda tästä erillisen luokan.
+                DebugMessage += "Pack count: " + Pack.Count + "\n";
                 for (int i = 0; i < PlayerList.Count; i++)
                 {
                     if (PlayerList[i].Intelligence == true) PlayerList[i].Checker();

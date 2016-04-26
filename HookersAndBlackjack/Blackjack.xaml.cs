@@ -52,25 +52,14 @@ namespace HookersAndBlackjack
             House.StakeSize = house.StakeSize;
             try
             {
-                House.Deal();
-                for (int i = 0; i < House.PlayerList.Count; i++)
-                {
-                    House.PlayerList[i].Checker();
-                }
-            }
-            catch
-            {
-                DebugScreen.Text += "Could not deal\n";
-            }
-            try
-            {
                 Task t = Task.Factory.StartNew(() => Rotator(House));
             }
             catch(Exception ex)
             {
-                DebugScreen.Text += "Exception occured: " + ex.ToString();
+                DebugScreen1.Text += "Exception occured: " + ex.ToString();
             }
         }
+
         // Deal buttoni on vain debugausta varten
         private void Deal_Click(object sender, RoutedEventArgs e)
         {
@@ -83,18 +72,18 @@ namespace HookersAndBlackjack
             {
                 try
                 {
-                    DebugScreen.Text = House.DebugMessage;
+                    DebugScreen1.Text = House.DebugMessage;
                     DebugBool = true;
                 }
                 catch
                 {
-                    DebugScreen.Text = "No Data";
+                    DebugScreen1.Text = "No Data";
                     DebugBool = true;
                 }
             }
             else
             {
-                DebugScreen.Text = "";
+                DebugScreen1.Text = "";
                 DebugBool = false;
             }
         }
@@ -105,7 +94,7 @@ namespace HookersAndBlackjack
             // Tämä muuttaa ListBufferin arvoa.
             ListBuffer = "Hit";
             // Debug viestejä:
-            DebugScreen.Text += "Hit stuff\n";
+            DebugScreen1.Text += "Hit stuff\n";
             // Tämä vapauttaa rotaattorin
             signal.Release();
         }
@@ -116,7 +105,7 @@ namespace HookersAndBlackjack
             // Tämä muuttaa ListBufferin arvoa.
             ListBuffer = "Pass";
             // Debug viestejä:
-            DebugScreen.Text += "Pass stuff\n";
+            DebugScreen1.Text += "Pass stuff\n";
             // Tämä vapauttaa rotaattorin
             signal.Release();
         }
@@ -143,8 +132,18 @@ namespace HookersAndBlackjack
             // Botit
             for (int i = 0; i < 4; i++)
             {
-                Foe w = new Foe(false, 10);
+                Foe w = new Foe(false, 0);
                 House.PlayerList.Add(w);
+            }
+
+            // Korttien jako
+            try
+            {
+                House.Deal();
+            }
+            catch
+            {
+                DebugScreen1.Text += "Could not deal\n";
             }
 
             // Fisher-Yates sekoitus

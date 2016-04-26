@@ -9,7 +9,7 @@ using Windows.UI.Popups;
 namespace HookersAndBlackjack.Model
 {
     /// <summary>
-    /// Foe luokka toimii place holderina lopullista pelaaja/vastustaja luokkaa varten.
+    /// Foe luokka toimii placeholderina lopullista pelaaja/vastustaja luokkaa varten.
     /// Tänne kokeellinen tavara.
     /// </summary>
     class Foe
@@ -42,7 +42,7 @@ namespace HookersAndBlackjack.Model
             {
                 vastaus = "Pass";
             }
-            else if(Uhkarohkeus > Risk)
+            else
             {
                 vastaus = "Hit";
             }
@@ -62,8 +62,7 @@ namespace HookersAndBlackjack.Model
             }
         }
 
-        // Tätä voi käyttää kun halutaan antaa infoa käyttäkälle popup ikkunassa.
-        // Vois laittaa erilliseen luokkaan.
+        // Tätä voi käyttää kun halutaan antaa infoa popup ikkunassa.
         public async void Popup()
         {
             // create the message dialog and set its content
