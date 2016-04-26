@@ -268,42 +268,45 @@ namespace HookersAndBlackjack
         /// </summary>
         private async void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            //YES/NO message
-            MessageDialog messageDialog = new MessageDialog("Delete profile '" + player.Name + "'?");
-            messageDialog.Commands.Add(new UICommand("YES") {Id = 0 });
-            messageDialog.Commands.Add(new UICommand("NO") { Id = 1 });
-            messageDialog.DefaultCommandIndex = 0;
-            messageDialog.CancelCommandIndex = 1;
-            var result = await messageDialog.ShowAsync();
-            if (result.Label == "YES") //if YES
+            if (player != null)
             {
-                playerlist.Clear();
-                foreach (Player pla in players)
+                //YES/NO message
+                MessageDialog messageDialog = new MessageDialog("Delete profile '" + player.Name + "'?");
+                messageDialog.Commands.Add(new UICommand("YES") { Id = 0 });
+                messageDialog.Commands.Add(new UICommand("NO") { Id = 1 });
+                messageDialog.DefaultCommandIndex = 0;
+                messageDialog.CancelCommandIndex = 1;
+                var result = await messageDialog.ShowAsync();
+                if (result.Label == "YES") //if YES
                 {
-                    playerlist.Add(pla);
+                    playerlist.Clear();
+                    foreach (Player pla in players)
+                    {
+                        playerlist.Add(pla);
+                    }
+                    int index = playerlist.FindIndex(f => f.Name == player.Name);
+                    playerlist.RemoveAt(index);
+                    string data = "";
+                    foreach (Player player in playerlist)
+                    {
+                        data += Environment.NewLine + player.Name + " " + player.Money + " " + player.Chips.ToString();
+                    }
+                    StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+                    StorageFile file = await storageFolder.CreateFileAsync("temp.txt", CreationCollisionOption.ReplaceExisting);
+
+                    //write string to created file
+                    await FileIO.WriteTextAsync(file, data);
+
+                    //get Assets folder
+                    StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+                    StorageFolder assetsFolder = await appInstalledFolder.GetFolderAsync("Assets");
+
+                    //move file from public folder to Assets folder
+                    await file.MoveAsync(assetsFolder, "players.txt", NameCollisionOption.ReplaceExisting);
+                    PlayerRefresh();
                 }
-                int index = playerlist.FindIndex(f => f.Name == player.Name);
-                playerlist.RemoveAt(index);
-                string data = "";
-                foreach (Player player in playerlist)
-                {
-                    data += Environment.NewLine + player.Name + " " + player.Money + " " + player.Chips.ToString();
-                }
-                StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-                StorageFile file = await storageFolder.CreateFileAsync("temp.txt", CreationCollisionOption.ReplaceExisting);
-
-                //write string to created file
-                await FileIO.WriteTextAsync(file, data);
-
-                //get Assets folder
-                StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-                StorageFolder assetsFolder = await appInstalledFolder.GetFolderAsync("Assets");
-
-                //move file from public folder to Assets folder
-                await file.MoveAsync(assetsFolder, "players.txt", NameCollisionOption.ReplaceExisting);
-                PlayerRefresh();
+                else { } //if NO
             }
-            else { } //if NO
         }
         private bool CheckSelection()
         {

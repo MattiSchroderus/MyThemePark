@@ -15,9 +15,14 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left"  Margin ="15" VerticalAlignment="Bottom" Background="#FFCD6E0F" Height="50" Width="100" Click="backButton_Click" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic"/>
-        <ListView x:Name="listView" HorizontalAlignment="Center" ItemsSource="{x:Bind players}" DisplayMemberPath="Name" Height="400"  VerticalAlignment="Center" Width="250" FontFamily="Showcard Gothic" FontSize="18" BorderThickness="2" Background="#FFCD6E0F" BorderBrush="Black" Margin="332,149,711,174" SelectionChanged="Listview_selectionChanged"/>
-        <TextBlock x:Name="MoneyBox" Margin="701,190,392,498" TextWrapping="Wrap" Text="Money: " FontSize="24" Width="187" Height="32" VerticalAlignment="Center"/>
-        <TextBlock x:Name="ChipBox" Margin="701,222,392,466" TextWrapping="Wrap" Text="Chips: " FontSize="24" Width="187" Height="32" VerticalAlignment="Center"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Tilastot" VerticalAlignment="Top" FontSize="48"/>
+        <ScrollViewer HorizontalAlignment="Center" Height="388" VerticalAlignment="Center" Width="490" VerticalScrollBarVisibility="Auto">
+            <Grid HorizontalAlignment="Center" Height="374" VerticalAlignment="Center" Width="430">
+                <TextBlock x:Name="nameText" HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Nimi" VerticalAlignment="Top" Height="374" Width="172" FontSize="36"/>
+                <TextBlock x:Name="moneyText" TextWrapping="NoWrap" Text="Rahat" VerticalAlignment="Center" Height="374" FontSize="36" Margin="189,0,0,0" HorizontalAlignment="Left" Width="106"/>
+                <TextBlock x:Name="chipText" TextWrapping="NoWrap" Text="Chipit" VerticalAlignment="Center" Height="374" FontSize="36" Margin="300,0,0,0" HorizontalAlignment="Left" Width="106"/>
+            </Grid>
+        </ScrollViewer>
 
     </Grid>
 </Page>

@@ -26,26 +26,31 @@ namespace HookersAndBlackjack
     /// </summary>
     public sealed partial class Tilastot : Page
     {
-        Player player;
-        ObservableCollection<Player> players = new ObservableCollection<Player>();
         public Tilastot()
         {
             this.InitializeComponent();
-
-
+            string data = "";
             try
             {
-                string[] lines = File.ReadAllLines("Assets/Players.txt");
-                foreach (string pair in lines)
+                string[] lines = File.ReadAllLines("Assets/players.txt"); //get lines from players.txt
+                foreach (string pair in lines) //pair == {name} {money}
                 {
-                    int position = pair.IndexOf(" ");
+                    int position = pair.IndexOf(" "); //name ends in " "
                     if (position < 0) { continue; }
                     else
                     {
-                        string name = pair.Substring(0, position);
-                        int money = int.Parse(pair.Substring(position + 1));
-                        players.Add(player = new Player(name));
-                        player.Money = money;
+                        string name = pair.Substring(0, position); //name ends in " "
+                        nameText.Text += Environment.NewLine + name;
+                        string moneychips = pair.Substring(position + 1); //money and chips are rest
+                        int position2 = moneychips.IndexOf(" "); //money ends in " "
+                        if (position2 < 0) { continue; }
+                        else
+                        {
+                            int money = int.Parse(moneychips.Substring(0, position2));
+                            int chips = int.Parse(moneychips.Substring(position2 + 1));
+                            moneyText.Text += Environment.NewLine + money.ToString();
+                            chipText.Text += Environment.NewLine + chips.ToString();
+                        }
                     }
                 }
             }
@@ -54,10 +59,8 @@ namespace HookersAndBlackjack
                 Debug.WriteLine("error: File Not Found");
             }
 
+
         }
-
-       
-
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             // get root frame (which show pages)
@@ -69,13 +72,6 @@ namespace HookersAndBlackjack
             {
                 rootFrame.GoBack();
             }
-        }
-
-        private void Listview_selectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MoneyBox.Text = "Money: " + player.Money.ToString();
-            ChipBox.Text = "Chips: " + player.Chips.ToString();
-
         }
     }
 }
