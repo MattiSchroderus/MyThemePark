@@ -35,7 +35,6 @@ namespace HookersAndBlackjack
         private bool DebugBool = false;
         // Luo taski joka seuraa ListBufferia
         public string ListBuffer = "";
-        public string DebugStr = "";
 
         // Konstruktori tapahtuu ensin
         public Blackjack()
@@ -48,8 +47,6 @@ namespace HookersAndBlackjack
         // Tapahtuu konstruktorin jälkeen. Tämän jälkeen tulee muut.
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is Table)
-            { DebugScreen.Text += "Jotain Tapahtuu"; }
             Table house = (Table)e.Parameter;
             House.PackNumber = house.PackNumber;
             House.StakeSize = house.StakeSize;
@@ -65,20 +62,14 @@ namespace HookersAndBlackjack
             {
                 DebugScreen.Text += "Could not deal\n";
             }
-            base.OnNavigatedTo(e);
-            House.tester = false;
-            DebugScreen.Text += "" + House.tester;
             try
             {
-                Task t = Task.Factory.StartNew(() => Rotator(House, DebugStr));
-                DebugScreen.Text += "" + House.tester;
+                Task t = Task.Factory.StartNew(() => Rotator(House));
             }
             catch(Exception ex)
             {
                 DebugScreen.Text += "Exception occured: " + ex.ToString();
             }
-            DebugScreen.Text += "Kokeilu";
-            DebugScreen.Text += DebugStr;
         }
         // Deal buttoni on vain debugausta varten
         private void Deal_Click(object sender, RoutedEventArgs e)
@@ -108,12 +99,7 @@ namespace HookersAndBlackjack
             }
         }
 
-        private void Go_Click(object sender, RoutedEventArgs e)
-        {
-            // Tämä vapauttaa rotaattorin
-            signal.Release();
-        }
-
+        // Lisää yhden kortin pelaajalle
         private void Hit_Click(object sender, RoutedEventArgs e)
         {
             // Tämä muuttaa ListBufferin arvoa.
@@ -124,7 +110,18 @@ namespace HookersAndBlackjack
             signal.Release();
         }
 
+        // Lopettaa pelaajan vuoron
+        private void Pass_Click(object sender, RoutedEventArgs e)
+        {
+            // Tämä muuttaa ListBufferin arvoa.
+            ListBuffer = "Pass";
+            // Debug viestejä:
+            DebugScreen.Text += "Pass stuff\n";
+            // Tämä vapauttaa rotaattorin
+            signal.Release();
+        }
 
+        // Palauttaa aiemmalle sivulle
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             // get root frame (which shows pages)
@@ -138,13 +135,12 @@ namespace HookersAndBlackjack
             }
         }
 
-        private Table Rotator(Table House, string DebugStr)
+        private Table Rotator(Table House)
         {
-            Task task0 = Task.Run(() => Waiter());
-            task0.Wait();
             // Luo yhden pelaajan. Loput on botteja
             Foe p = new Foe(true, 0);
             House.PlayerList.Add(p);
+            // Botit
             for (int i = 0; i < 4; i++)
             {
                 Foe w = new Foe(false, 10);
@@ -152,7 +148,7 @@ namespace HookersAndBlackjack
             }
 
             // Fisher-Yates sekoitus
-            ushort n = (ushort)House.PlayerList.Count;
+            int n = House.PlayerList.Count;
             while (n > 1)
             {
                 n--;
@@ -163,13 +159,9 @@ namespace HookersAndBlackjack
             }
 
             // Tsekkaus looppi
-            int xeon = House.PlayerList.Count;
-            for (int i = 0; i < xeon; i++)
+            for (int i = 0; i < House.PlayerList.Count; i++)
             {
-                House.PlayerList[i].RiskMeter(House.PackNumber);
-                // Voitaisiin myös tehä niin että pelaajien kohdalla
-                // uhkarohkeus on null. silloin switchi siirtyisi
-                // default kohtaan ja suorittaisi siellä olevat komennot
+                // Pelaajan looppi
                 if (House.PlayerList[i].Intelligence == true)
                 {
                     // Tämä luo loopin joka odottaa että pelaaja lopettaa vuoronsa
@@ -194,6 +186,8 @@ namespace HookersAndBlackjack
                         }
                     }
                 }
+
+                // Bottien looppi
                 else
                 {
                     bool b = true;
@@ -217,10 +211,11 @@ namespace HookersAndBlackjack
                     }
                 }
             }
-            House.DebugMessage = DebugStr;
+            // Aika varma että tätä ei tarvita.
             return House;
         }
 
+        // Tätä tarvitaan odotteluun
         private async void Waiter()
         {
             await signal.WaitAsync();

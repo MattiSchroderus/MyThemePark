@@ -30,7 +30,7 @@ namespace HookersAndBlackjack.Model
             }
             u = 21 - u;
             u = Math.Pow((packNumber * 4), u) - Hand.Count;
-            u = u / (52 * packNumber);
+            u = u / ((52 * packNumber) - Hand.Count);
             u = u * 100;
             Risk = (int)u;
         }

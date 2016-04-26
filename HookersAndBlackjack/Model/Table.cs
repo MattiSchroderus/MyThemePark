@@ -35,13 +35,6 @@ namespace HookersAndBlackjack.Model
         private List<Kortti> Clubs = new List<Kortti>();
         // Pakka on myös lista, johon myöhemmin muut listat lisätään.
         private List<Kortti> Pack = new List<Kortti>();
-        /* Käsi. 
-        Tämä siirretään Foe luokkaan. Tähän listaan pääsee käsiksi
-        Foe luokan olion metodeilla. Tämä tehdään näin jotta
-        Foe luokan oliot voidaan tunkea listaan, jolloin pelaajien määrää
-        voidaan hallita erikseen BlackjackMenu:sta.
-        */
-        private List<Kortti> Hand = new List<Kortti>();
         // Ylimääräinen kortti. Sekoitusta varten.
         private Kortti T = new Kortti();
 
@@ -136,12 +129,11 @@ namespace HookersAndBlackjack.Model
         {
             // Muokkaa tätä siten, että pöydän pakasta voidaan ottaa kortteja
             // ja lisätä niitä pelaajan pakkaan.
-            DebugMessage = "";
-            ushort x;
             try
             {
+                ushort x;
                 x = (ushort)(Pack.Count - 1);
-                Hand.Add(Pack[x]);
+                PlayerList[playerNumber].Hand.Add(Pack[x]);
                 Pack.RemoveAt(x);
             }
             catch
