@@ -37,7 +37,7 @@ namespace HookersAndBlackjack
             this.InitializeComponent();
 
             PlayerRefresh();
-            Debug.WriteLine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path + "---------------------------------------");
+            Debug.WriteLine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path + "---------------------------------------"); //sovelluksen tiedostopolku
         }
 
         private void KolikkopeliButton_Click(object sender, RoutedEventArgs e)
@@ -101,8 +101,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// when combobox selection is changed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             player = ((sender as ComboBox).SelectedItem as Player); //player is combobox selection
@@ -117,8 +115,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// New... button click
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void newButton_Click(object sender, RoutedEventArgs e)
         {
             newProfileStackPanel.Visibility = Visibility.Visible; //show new profile block, button
@@ -126,8 +122,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// when new profile text box is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void newProfileTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             newProfileTextBox.Text = ""; //erase block text
@@ -136,8 +130,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// NewProfile Button click
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private async void newProfileButton_Click(object sender, RoutedEventArgs e)
         {
             //create new message dialog box
@@ -185,7 +177,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// Checks if profile name used
         /// </summary>
-        /// <returns></returns>
         private int FindPlayer()
         {
             try
@@ -222,9 +213,17 @@ namespace HookersAndBlackjack
                     else
                     {
                         string name = pair.Substring(0, position); //name ends in " "
-                        int money = int.Parse(pair.Substring(position + 1)); //money is rest
-                        players.Add(player = new Player(name)); //Add player to players list
-                        player.Money = money; //give money to player
+                        string moneychips = pair.Substring(position + 1); //money and chips are rest
+                        int position2 = moneychips.IndexOf(" "); //money ends in " "
+                        if (position2 < 0) { continue; }
+                        else
+                        {
+                            int money = int.Parse(moneychips.Substring(0, position2));
+                            int chips = int.Parse(moneychips.Substring(position2 + 1));
+                            players.Add(player = new Player(name)); //Add player to players list
+                            player.Money = money; //give money to player
+                            player.Chips = chips;
+                        }
                     }
                 }
             }
@@ -236,8 +235,6 @@ namespace HookersAndBlackjack
         /// <summary>
         /// Add player to players.txt
         /// </summary>
-        /// <param name="player"></param>
-        /// <returns></returns>
         public async Task AddPlayer(Player player)
         {
             try
@@ -248,7 +245,7 @@ namespace HookersAndBlackjack
 
                 //Text
                 string text = File.ReadAllText("Assets/players.txt");
-                text += Environment.NewLine + player.Name + " " + player.Money.ToString();
+                text += Environment.NewLine + player.Name + " " + player.Money.ToString() + " " + player.Chips.ToString();
 
                 //write string to created file
                 await FileIO.WriteTextAsync(file, text);
@@ -269,17 +266,16 @@ namespace HookersAndBlackjack
         /// <summary>
         /// Delete... button click , deletes selected profile
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private async void deleteButton_Click(object sender, RoutedEventArgs e)
         {
+            //YES/NO message
             MessageDialog messageDialog = new MessageDialog("Delete profile '" + player.Name + "'?");
             messageDialog.Commands.Add(new UICommand("YES") {Id = 0 });
             messageDialog.Commands.Add(new UICommand("NO") { Id = 1 });
             messageDialog.DefaultCommandIndex = 0;
             messageDialog.CancelCommandIndex = 1;
             var result = await messageDialog.ShowAsync();
-            if (result.Label == "YES")
+            if (result.Label == "YES") //if YES
             {
                 playerlist.Clear();
                 foreach (Player pla in players)
@@ -291,7 +287,7 @@ namespace HookersAndBlackjack
                 string data = "";
                 foreach (Player player in playerlist)
                 {
-                    data += player.Name + " " + player.Money + Environment.NewLine;
+                    data += Environment.NewLine + player.Name + " " + player.Money + " " + player.Chips.ToString();
                 }
                 StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
                 StorageFile file = await storageFolder.CreateFileAsync("temp.txt", CreationCollisionOption.ReplaceExisting);
@@ -307,7 +303,7 @@ namespace HookersAndBlackjack
                 await file.MoveAsync(assetsFolder, "players.txt", NameCollisionOption.ReplaceExisting);
                 PlayerRefresh();
             }
-            else { }
+            else { } //if NO
         }
         private bool CheckSelection()
         {
