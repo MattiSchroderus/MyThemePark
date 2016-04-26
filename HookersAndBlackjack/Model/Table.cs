@@ -45,40 +45,6 @@ namespace HookersAndBlackjack.Model
         // Ylimääräinen kortti. Sekoitusta varten.
         private Kortti T = new Kortti();
 
-        // Tätä voi käyttää kun halutaan antaa infoa käyttäkälle popup ikkunassa.
-        // Vois laittaa erilliseen luokkaan.
-        public async void Popup()
-        {
-            DebugMessage += "Popup stuff";
-            // create the message dialog and set its content
-            var messageDialog = new MessageDialog(
-                "You thought your DDOS attack would succeed, it did not." +
-                "You thought you could beat us, you can not." +
-                "You can only hope to contain us, and fail.");
-
-            messageDialog.Title = "Title";
-
-            // add commands and set their callbacks; both buttons use the same callback function
-            messageDialog.Commands.Add(new UICommand(
-                "Ok",
-                new UICommandInvokedHandler(this.CommandInvokedHandler)));
-            messageDialog.Commands.Add(new UICommand(
-                "Cancel",
-                new UICommandInvokedHandler(this.CommandInvokedHandler)));
-
-            // set the command that will be invoked by default
-            messageDialog.DefaultCommandIndex = 0;
-            // set the command to be invoked when escape is pressed
-            messageDialog.DefaultCommandIndex = 1;
-            await messageDialog.ShowAsync();
-        }
-        //Kuuluu Popup metodiin.
-        private void CommandInvokedHandler(IUICommand command)
-        {
-            // Display message showing the label of the command that was invoked
-            Debug.WriteLine("The '" + command.Label + "' command has been selected.");
-        }
-
         // Jakaa kortit
         public void Deal()
         {
@@ -87,8 +53,10 @@ namespace HookersAndBlackjack.Model
             Diamonds.Clear();
             Clubs.Clear();
             Pack.Clear();
-            Hand.Clear();
-
+            for (int i = 0; i < PlayerList.Count; i++)
+            {
+                PlayerList[i].Hand.Clear();
+            }
             DebugMessage = "";
 
             //Spades
@@ -135,25 +103,36 @@ namespace HookersAndBlackjack.Model
                 Pack[k] = Pack[n];
                 Pack[n] = T;
             }
-            // Korttien siirto käteen
-            ushort x = (ushort)Pack.Count;
-            for (n = 0; n < 2; n++)
+
+            //Korttien siirto pelaajille
+            for(int i = 0; i < PlayerList.Count; i++)
             {
-                x--;
-                Hand.Add(Pack[x]);
-                Pack.RemoveAt(x);
+                // Korttien siirto käteen
+                ushort x = (ushort)Pack.Count;
+                for (n = 0; n < 2; n++)
+                {
+                    x--;
+                    PlayerList[i].Hand.Add(Pack[x]);
+                    Pack.RemoveAt(x);
+                }
             }
+
             // Printtaus DebugMessageen. Mä ehkä haluan luoda tästä erillisen luokan.
             DebugMessage += "Pack count: " + Pack.Count + "\n";
-            DebugMessage += "Hand count: " + Hand.Count + "\n";
-
-            foreach (Kortti k in Hand)
+            for (int i = 0; i < PlayerList.Count; i ++)
             {
-                DebugMessage += k.ToString();
+                if (PlayerList[i].Intelligence == true) PlayerList[i].Checker();
+                DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].Hand.Count + "\n";
+                foreach (Kortti k in PlayerList[i].Hand)
+                {
+                    DebugMessage += k.ToString();
+                }
             }
+
         }
-        // Tämä ei kuulu tänne. Siirretään Foe luokkaan.
-        public void Hit()
+
+        // Hit metodi vaatii kokonaisluvun, joka kertoo kuka käskee tekeen mitä.
+        public void Hit(int playerNumber)
         {
             // Muokkaa tätä siten, että pöydän pakasta voidaan ottaa kortteja
             // ja lisätä niitä pelaajan pakkaan.
@@ -171,48 +150,22 @@ namespace HookersAndBlackjack.Model
                 DebugMessage += "Printing Hand and Pack count > \n";
             }
 
-            // Kaikki tästä alaspäin toimii niinkuin pitääkin. 
             try
             {
-                // Printtaus DebugMessageen. Mä ehkä haluan luoda tästä erillisen luokan.
-                DebugMessage += "Pack count: " + Pack.Count + "\n";
-                DebugMessage += "Hand count: " + Hand.Count + "\n";
-            }
-            catch
-            {
-                DebugMessage += "Something wrong with DebugMessage.\n";
-            }
-
-            try
-            {
-                foreach (Kortti k in Hand)
+                for (int i = 0; i < PlayerList.Count; i++)
                 {
-                    DebugMessage += k.ToString();
+                    if (PlayerList[i].Intelligence == true) PlayerList[i].Checker();
+                    DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].Hand.Count + "\n";
+                    foreach (Kortti k in PlayerList[i].Hand)
+                    {
+                        DebugMessage += k.ToString();
+                    }
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                DebugMessage = "Could not print cards.\n";
-            }
-
-        }
-        // Ei välttämättä tarpeellinen
-        public void Pass()
-        {
-            throw new NotImplementedException();
-        }
-        // Tämä tarkistaa onko yhteen laskettu arvo yli 21.
-        // Ei kuulu tänne. Siirretään Foe luokkaan.
-        public void Checker()
-        {
-            int u = 0;
-            foreach (Kortti k in Hand)
-            {
-                u += k.Number;
-            }
-            if (u > 21)
-            {
-                Popup();
+                DebugMessage += "Could not print cards and call Checker()\n";
+                DebugMessage += ex.ToString() + "\n";
             }
         }
 

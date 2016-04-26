@@ -22,7 +22,7 @@ namespace HookersAndBlackjack.Model
 
         public override string ToString()
         {
-            return "\nSuit: " + Suit + ", Number: " + Number;
+            return "Suit: " + Suit + ", Number: " + Number + "\n";
         }
     }
 }
