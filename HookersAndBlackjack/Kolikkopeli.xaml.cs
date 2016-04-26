@@ -28,7 +28,7 @@ namespace HookersAndBlackjack
     {
         //settings
         private KPeli kolikkopeli;
-        Player player = new Player("testaaja");
+        Player player;
 
         public static double CanvasWidth; //canvas W for wheels
         public static double CanvasHeight; //canvas H for wheels
@@ -44,12 +44,20 @@ namespace HookersAndBlackjack
             CanvasHeight = MyCanvas.Height;
             kolikkopeli = new KPeli(MyCanvas, textBlock_Money, textBlock_Log, button_Play, slider_Bet,button_Double);
             kolikkopeli.ChangePath(0);
+        }
 
-            //test Money
-            player.Money = 200;
-            //Ui element setups
-            textBlock_Money.Text = "Money: " + player.Money.ToString();
-            slider_Bet.Maximum = player.Money; //slider max to player.Money
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is Player)
+            {
+                player = (Player)e.Parameter;
+                //Ui element setups
+                textBlock_Log.Text = "Player: " + player.Name + "\n" + textBlock_Log.Text;
+                textBlock_Money.Text = "Money: " + player.Money.ToString();
+                slider_Bet.Maximum = player.Money; //slider max to player.Money
+            }
+            base.OnNavigatedTo(e);
         }
 
         /// <summary>

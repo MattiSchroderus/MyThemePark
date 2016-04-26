@@ -114,6 +114,9 @@
     <Compile Include="Model\KPeli.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Model\Table.cs" />
+    <Compile Include="Pankki.xaml.cs">
+      <DependentUpon>Pankki.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tilastot.xaml.cs">
       <DependentUpon>Tilastot.xaml</DependentUpon>
@@ -176,6 +179,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pankki.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tilastot.xaml">
       <SubType>Designer</SubType>

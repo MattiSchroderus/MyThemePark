@@ -43,7 +43,7 @@ namespace HookersAndBlackjack
         private void KolikkopeliButton_Click(object sender, RoutedEventArgs e)
         {
             // Lisää ja navigoi uudelle sivulle.
-            this.Frame.Navigate(typeof(Kolikkopeli));
+            this.Frame.Navigate(typeof(Kolikkopeli), player);
         }
 
         private void BlackjackButton_Click(object sender, RoutedEventArgs e)
@@ -55,6 +55,12 @@ namespace HookersAndBlackjack
         private void TilastoButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(Tilastot));
+        }
+
+        private void PankkiButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Lisää ja navigoi uudelle sivulle.
+            this.Frame.Navigate(typeof(Pankki), player);
         }
 
         /// <summary>
@@ -267,6 +273,14 @@ namespace HookersAndBlackjack
                 PlayerRefresh();
             }
             else { }
+        }
+        private bool CheckSelection()
+        {
+            if(player != null)
+            {
+                return true;
+            }
+            else { return false; }
         }
     }
 }
