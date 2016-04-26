@@ -172,11 +172,5 @@ namespace HookersAndBlackjack
                 mediaElement.Volume = volumeSlider.Value; //Changes music volume to Slider value
             }
         }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            player.Money += 50;
-            slider_Bet.Maximum = player.Money;
-        }
     }
 }
