@@ -126,13 +126,12 @@ namespace HookersAndBlackjack
 
         private Table Rotator(Table House)
         {
-            // Luo yhden pelaajan. Loput on botteja
-            Foe p = new Foe(true, 0);
-            House.PlayerList.Add(p);
             // Botit
             for (int i = 0; i < 4; i++)
             {
-                Foe w = new Foe(false, 0);
+                Player w = new Player("");
+                w.Intelligence = true;
+                w.Uhkarohkeus = 10;
                 House.PlayerList.Add(w);
             }
 

@@ -108,7 +108,6 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\Foe.cs" />
     <Compile Include="Model\Human.cs" />
     <Compile Include="Model\Kortti.cs" />
     <Compile Include="Model\KPeli.cs" />

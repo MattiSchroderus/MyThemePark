@@ -58,7 +58,7 @@ namespace HookersAndBlackjack
             if (player != null)
             {
                 // lisää ja navigoi uudelle sivulle.
-                this.Frame.Navigate(typeof(BlackjackMenu));
+                this.Frame.Navigate(typeof(BlackjackMenu), player);
             }
             else
             {

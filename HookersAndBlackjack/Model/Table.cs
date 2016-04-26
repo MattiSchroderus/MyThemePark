@@ -20,9 +20,9 @@ namespace HookersAndBlackjack.Model
         private Random rand = new Random();
 
         // Dummy pelaaja
-        public Foe Dummy = new Foe();
+        public Player Dummy = new Player("Dummy");
         // Pelaaja lista
-        public List<Foe> PlayerList = new List<Foe>();
+        public List<Player> PlayerList = new List<Player>();
 
         // DebugMessage on tässä debuggausta varten. Mietin että tätä voisi käyttää
         // palauttamaan stringin erillistä Debug luokkaa varten. 

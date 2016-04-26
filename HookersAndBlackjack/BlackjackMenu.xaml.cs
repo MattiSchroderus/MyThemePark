@@ -23,10 +23,23 @@ namespace HookersAndBlackjack
     /// </summary>
     public sealed partial class BlackjackMenu : Page
     {
+        public Player player;
+
         public BlackjackMenu()
         {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is Player)
+            {
+                player = (Player)e.Parameter;
+                //Ui element setups
+                DebugScreen.Text = "Player: " + player.Name + "\n" + DebugScreen.Text;
+            }
+            base.OnNavigatedTo(e);
         }
 
         private void Play_Click(object sender, RoutedEventArgs e)
@@ -38,6 +51,7 @@ namespace HookersAndBlackjack
             {
                 House.PackNumber = int.Parse(PackNumber.SelectedItem.ToString());
                 House.StakeSize = int.Parse(StakeSize.SelectedItem.ToString());
+                House.PlayerList.Add(player);
 
                 // Lisää ja navigoi uudelle sivulle. Tiedetään että toimii.
                 // Laitetaan tänne jotta debugaus toimii järjestelmällisesti.
