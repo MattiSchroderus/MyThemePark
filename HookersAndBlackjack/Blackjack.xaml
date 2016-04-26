@@ -7,13 +7,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop x:Name="bg_gradient_bot" Color="#FFFFA302" Offset="1"/>
+                <GradientStop x:Name="bg_gradient_mid" Color="#FFC76503" Offset="0.5"/>
+                <GradientStop x:Name="bg_gradient_top" Color="#FFC76503" Offset="0.27"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <!--First row-->
         <Button x:Name="BackButton" Grid.Row="0" Margin="5" HorizontalAlignment="Left" Click="BackButton_Click">Back</Button>
         <RelativePanel Grid.Row="0" HorizontalAlignment="Right">
