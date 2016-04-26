@@ -9,16 +9,32 @@ using Windows.UI.Popups;
 namespace HookersAndBlackjack.Model
 {
     /// <summary>
-    /// Foe luokka toimii place holderina lopullista pelaaja/vastustaja luokkaa varten.
+    /// Foe luokka toimii placeholderina lopullista pelaaja/vastustaja luokkaa varten.
     /// Tänne kokeellinen tavara.
     /// </summary>
-    class Foe
+    public class Foe
     {
-        public List<Kortti> Hand = new List<Kortti>();
+        private List<Kortti> Hand = new List<Kortti>();
         public bool Intelligence { get; set; }
         public int Uhkarohkeus { get; set; }
         public string vastaus { get; set; }
         private int Risk { get; set; }
+
+        // Valmistelua player luokkaa varten
+        public void HandClear()
+        {
+            Hand.Clear();
+        }
+
+        public void AddCard(Kortti k)
+        {
+            Hand.Add(k);
+        }
+
+        public int CardCount()
+        {
+            return Hand.Count;
+        }
 
         // Tämä tarkistaa mikä on halutun kortin todennäköisyys
         public void RiskMeter(int packNumber)
@@ -30,7 +46,7 @@ namespace HookersAndBlackjack.Model
             }
             u = 21 - u;
             u = Math.Pow((packNumber * 4), u) - Hand.Count;
-            u = u / (52 * packNumber);
+            u = u / ((52 * packNumber) - Hand.Count);
             u = u * 100;
             Risk = (int)u;
         }
@@ -42,7 +58,7 @@ namespace HookersAndBlackjack.Model
             {
                 vastaus = "Pass";
             }
-            else if(Uhkarohkeus > Risk)
+            else
             {
                 vastaus = "Hit";
             }
@@ -62,8 +78,7 @@ namespace HookersAndBlackjack.Model
             }
         }
 
-        // Tätä voi käyttää kun halutaan antaa infoa käyttäkälle popup ikkunassa.
-        // Vois laittaa erilliseen luokkaan.
+        // Tätä voi käyttää kun halutaan antaa infoa popup ikkunassa.
         public async void Popup()
         {
             // create the message dialog and set its content
@@ -88,11 +103,22 @@ namespace HookersAndBlackjack.Model
             messageDialog.DefaultCommandIndex = 1;
             await messageDialog.ShowAsync();
         }
+
         //Kuuluu Popup metodiin.
         private void CommandInvokedHandler(IUICommand command)
         {
             // Display message showing the label of the command that was invoked
             Debug.WriteLine("The '" + command.Label + "' command has been selected.");
+        }
+
+        public override string ToString()
+        {
+            string str = "";
+            foreach (Kortti k in Hand)
+            {
+                str += k.ToString();
+            }
+            return str;
         }
 
         // Konstruktorit

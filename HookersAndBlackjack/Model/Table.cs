@@ -35,13 +35,6 @@ namespace HookersAndBlackjack.Model
         private List<Kortti> Clubs = new List<Kortti>();
         // Pakka on myös lista, johon myöhemmin muut listat lisätään.
         private List<Kortti> Pack = new List<Kortti>();
-        /* Käsi. 
-        Tämä siirretään Foe luokkaan. Tähän listaan pääsee käsiksi
-        Foe luokan olion metodeilla. Tämä tehdään näin jotta
-        Foe luokan oliot voidaan tunkea listaan, jolloin pelaajien määrää
-        voidaan hallita erikseen BlackjackMenu:sta.
-        */
-        private List<Kortti> Hand = new List<Kortti>();
         // Ylimääräinen kortti. Sekoitusta varten.
         private Kortti T = new Kortti();
 
@@ -55,7 +48,7 @@ namespace HookersAndBlackjack.Model
             Pack.Clear();
             for (int i = 0; i < PlayerList.Count; i++)
             {
-                PlayerList[i].Hand.Clear();
+                PlayerList[i].HandClear();
             }
             DebugMessage = "";
 
@@ -94,7 +87,7 @@ namespace HookersAndBlackjack.Model
             }
 
             // Fisher-Yates sekoitus
-            ushort n = (ushort)Pack.Count;
+            int n = Pack.Count;
             while (n > 1)
             {
                 n--;
@@ -108,11 +101,11 @@ namespace HookersAndBlackjack.Model
             for(int i = 0; i < PlayerList.Count; i++)
             {
                 // Korttien siirto käteen
-                ushort x = (ushort)Pack.Count;
+                int x = Pack.Count;
                 for (n = 0; n < 2; n++)
                 {
                     x--;
-                    PlayerList[i].Hand.Add(Pack[x]);
+                    PlayerList[i].AddCard(Pack[x]);
                     Pack.RemoveAt(x);
                 }
             }
@@ -122,11 +115,8 @@ namespace HookersAndBlackjack.Model
             for (int i = 0; i < PlayerList.Count; i ++)
             {
                 if (PlayerList[i].Intelligence == true) PlayerList[i].Checker();
-                DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].Hand.Count + "\n";
-                foreach (Kortti k in PlayerList[i].Hand)
-                {
-                    DebugMessage += k.ToString();
-                }
+                DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].CardCount() + "\n";
+                DebugMessage += PlayerList[i].ToString();
             }
 
         }
@@ -136,12 +126,11 @@ namespace HookersAndBlackjack.Model
         {
             // Muokkaa tätä siten, että pöydän pakasta voidaan ottaa kortteja
             // ja lisätä niitä pelaajan pakkaan.
-            DebugMessage = "";
-            ushort x;
             try
             {
+                ushort x;
                 x = (ushort)(Pack.Count - 1);
-                Hand.Add(Pack[x]);
+                PlayerList[playerNumber].AddCard(Pack[x]);
                 Pack.RemoveAt(x);
             }
             catch
@@ -152,14 +141,14 @@ namespace HookersAndBlackjack.Model
 
             try
             {
+                DebugMessage = "";
+                // Printtaus DebugMessageen. Mä ehkä haluan luoda tästä erillisen luokan.
+                DebugMessage += "Pack count: " + Pack.Count + "\n";
                 for (int i = 0; i < PlayerList.Count; i++)
                 {
                     if (PlayerList[i].Intelligence == true) PlayerList[i].Checker();
-                    DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].Hand.Count + "\n";
-                    foreach (Kortti k in PlayerList[i].Hand)
-                    {
-                        DebugMessage += k.ToString();
-                    }
+                    DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].CardCount() + "\n";
+                    DebugMessage += PlayerList[i].ToString();
                 }
             }
             catch(Exception ex)
