@@ -42,25 +42,60 @@ namespace HookersAndBlackjack
 
         private void KolikkopeliButton_Click(object sender, RoutedEventArgs e)
         {
-            // Lisää ja navigoi uudelle sivulle.
-            this.Frame.Navigate(typeof(Kolikkopeli), player);
+            if (player != null)
+            {
+                // Lisää ja navigoi uudelle sivulle.
+                this.Frame.Navigate(typeof(Kolikkopeli), player);
+            }
+            else
+            {
+                NoProfileMessage();
+            }
         }
 
         private void BlackjackButton_Click(object sender, RoutedEventArgs e)
         {
-            // lisää ja navigoi uudelle sivulle.
-            this.Frame.Navigate(typeof(BlackjackMenu));
+            if (player != null)
+            {
+                // lisää ja navigoi uudelle sivulle.
+                this.Frame.Navigate(typeof(BlackjackMenu));
+            }
+            else
+            {
+                NoProfileMessage();
+            }
+        }
+
+        private async void NoProfileMessage()
+        {
+            MessageDialog messageDialog = new MessageDialog("No profile selected");
+            messageDialog.Commands.Add(new UICommand("Ok"));
+            await messageDialog.ShowAsync();
         }
 
         private void TilastoButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(Tilastot));
+            if (player != null)
+            {
+                this.Frame.Navigate(typeof(Tilastot));
+            }
+            else
+            {
+                NoProfileMessage();
+            }
         }
 
         private void PankkiButton_Click(object sender, RoutedEventArgs e)
         {
-            // Lisää ja navigoi uudelle sivulle.
-            this.Frame.Navigate(typeof(Pankki), player);
+            if (player != null)
+            {
+                // Lisää ja navigoi uudelle sivulle.
+                this.Frame.Navigate(typeof(Pankki), player);
+            }
+            else
+            {
+                NoProfileMessage();
+            }
         }
 
         /// <summary>

@@ -27,9 +27,9 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="repayButton" Content="Maksa" HorizontalAlignment="Left"  Margin ="52,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="100" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic"/>
-            <Button x:Name="buyMoneyButton" Content="Lainaa" HorizontalAlignment="Left"  Margin ="56,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="100" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Grid.Column="1"/>
-            <Button x:Name="buyChipsButton" Content="Osta" HorizontalAlignment="Left"  Margin ="70,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="100" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Grid.Column="2"/>
+            <Button x:Name="repayButton" Content="Maksa (50)" HorizontalAlignment="Left"  Margin ="28,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="124" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Click="repayButton_Click"/>
+            <Button x:Name="buyMoneyButton" Content="Lainaa" HorizontalAlignment="Left"  Margin ="56,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="100" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Grid.Column="1" Click="buyMoneyButton_Click"/>
+            <Button x:Name="buyChipsButton" Content="Osta (50)" HorizontalAlignment="Left"  Margin ="64,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="100" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Grid.Column="2" Click="buyChipsButton_Click"/>
             <TextBlock x:Name="repayTitle" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Maksa lainaa 50" VerticalAlignment="Top" FontSize="24" Margin="10,36,10,0" Width="190"/>
             <TextBlock x:Name="loanTitle" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Ota lainaa 50" VerticalAlignment="Top" FontSize="24" Margin="35,36,35,0" Grid.Column="1"/>
             <TextBlock x:Name="buyChipsTitle" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Osta merkkejä 100" VerticalAlignment="Top" FontSize="24" Margin="10,36,0,0" Grid.Column="2" Width="200"/>
