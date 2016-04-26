@@ -19,8 +19,6 @@ namespace HookersAndBlackjack.Model
         public int Returner { get; set; }
         private Random rand = new Random();
 
-        // Dummy pelaaja
-        public Player Dummy = new Player("Dummy");
         // Pelaaja lista
         public List<Player> PlayerList = new List<Player>();
 
@@ -90,7 +88,7 @@ namespace HookersAndBlackjack.Model
             int n = Pack.Count;
             while (n > 1)
             {
-                n--;
+                --n;
                 int k = rand.Next(n + 1);
                 T = Pack[k];
                 Pack[k] = Pack[n];
@@ -118,7 +116,6 @@ namespace HookersAndBlackjack.Model
                 DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].CardCount() + "\n";
                 DebugMessage += PlayerList[i].ToString();
             }
-
         }
 
         // Hit metodi vaatii kokonaisluvun, joka kertoo kuka käskee tekeen mitä.
@@ -128,10 +125,11 @@ namespace HookersAndBlackjack.Model
             // ja lisätä niitä pelaajan pakkaan.
             try
             {
-                ushort x;
-                x = (ushort)(Pack.Count - 1);
+                int x;
+                x = (Pack.Count - 1);
                 PlayerList[playerNumber].AddCard(Pack[x]);
                 Pack.RemoveAt(x);
+                DebugMessage += "Hit";
             }
             catch
             {
@@ -146,9 +144,17 @@ namespace HookersAndBlackjack.Model
                 DebugMessage += "Pack count: " + Pack.Count + "\n";
                 for (int i = 0; i < PlayerList.Count; i++)
                 {
-                    if (PlayerList[i].Intelligence == true) PlayerList[i].Checker();
-                    DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].CardCount() + "\n";
-                    DebugMessage += PlayerList[i].ToString();
+                    if (PlayerList[i].Intelligence == true)
+                    {
+                        PlayerList[i].Checker();
+                        DebugMessage += "Player" + " hand count: " + PlayerList[i].CardCount() + "\n";
+                        DebugMessage += PlayerList[i].ToString();
+                    }
+                    else
+                    {
+                        DebugMessage += "Foe#" + i + " hand count: " + PlayerList[i].CardCount() + "\n";
+                        DebugMessage += PlayerList[i].ToString();
+                    }
                 }
             }
             catch(Exception ex)

@@ -36,6 +36,7 @@ namespace HookersAndBlackjack
             if (e.Parameter is Player)
             {
                 player = (Player)e.Parameter;
+                player.Intelligence = true;
                 //Ui element setups
                 DebugScreen.Text = "Player: " + player.Name + "\n" + DebugScreen.Text;
             }

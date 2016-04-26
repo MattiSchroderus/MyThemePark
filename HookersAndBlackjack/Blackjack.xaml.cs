@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-// Tsekkaa näiden tarpeellisuus
 using System.Threading;
 using System.Threading.Tasks;
-
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -32,6 +30,7 @@ namespace HookersAndBlackjack
 
         private Table House = new Table();
         public Random rand = new Random();
+        public Player Dummy = new Player("Dummy");
         private bool DebugBool = false;
         // Luo taski joka seuraa ListBufferia
         public string ListBuffer = "";
@@ -40,8 +39,6 @@ namespace HookersAndBlackjack
         public Blackjack()
         {
             this.InitializeComponent();
-            // House.Start();
-            House.Dummy.Intelligence = false;
         }
 
         // Tapahtuu konstruktorin jälkeen. Tämän jälkeen tulee muut.
@@ -50,9 +47,10 @@ namespace HookersAndBlackjack
             Table house = (Table)e.Parameter;
             House.PackNumber = house.PackNumber;
             House.StakeSize = house.StakeSize;
+            House.PlayerList.AddRange(house.PlayerList);
             try
             {
-                Task t = Task.Factory.StartNew(() => Rotator(House));
+                Task t = Task.Run(() => Rotator(House));
             }
             catch(Exception ex)
             {
@@ -93,8 +91,6 @@ namespace HookersAndBlackjack
         {
             // Tämä muuttaa ListBufferin arvoa.
             ListBuffer = "Hit";
-            // Debug viestejä:
-            DebugScreen1.Text += "Hit stuff\n";
             // Tämä vapauttaa rotaattorin
             signal.Release();
         }
@@ -104,8 +100,6 @@ namespace HookersAndBlackjack
         {
             // Tämä muuttaa ListBufferin arvoa.
             ListBuffer = "Pass";
-            // Debug viestejä:
-            DebugScreen1.Text += "Pass stuff\n";
             // Tämä vapauttaa rotaattorin
             signal.Release();
         }
@@ -127,23 +121,16 @@ namespace HookersAndBlackjack
         private Table Rotator(Table House)
         {
             // Botit
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
                 Player w = new Player("");
-                w.Intelligence = true;
-                w.Uhkarohkeus = 10;
+                w.Intelligence = false;
+                w.Uhkarohkeus = 20;
                 House.PlayerList.Add(w);
             }
 
             // Korttien jako
-            try
-            {
-                House.Deal();
-            }
-            catch
-            {
-                DebugScreen1.Text += "Could not deal\n";
-            }
+            House.Deal();
 
             // Fisher-Yates sekoitus
             int n = House.PlayerList.Count;
@@ -151,9 +138,9 @@ namespace HookersAndBlackjack
             {
                 n--;
                 int k = rand.Next(n + 1);
-                House.Dummy = House.PlayerList[k];
+                Dummy = House.PlayerList[k];
                 House.PlayerList[k] = House.PlayerList[n];
-                House.PlayerList[n] = House.Dummy;
+                House.PlayerList[n] = Dummy;
             }
 
             // Tsekkaus looppi
@@ -177,9 +164,11 @@ namespace HookersAndBlackjack
                                 ListBuffer = "";
                                 break;
                             case "Pass":
+                                ListBuffer = "";
                                 b = false;
                                 break;
                             default:
+                                ListBuffer = "";
                                 break;
                         }
                     }
@@ -209,8 +198,33 @@ namespace HookersAndBlackjack
                     }
                 }
             }
+            int q = 0;
+            int x = 0;
+            int z = 0;
+            for (int i = 0; i < House.PlayerList.Count; i++)
+            {
+                q = House.PlayerList[i].CardTotal();
+                if (q > z)
+                {
+                    x = i;
+                    z = q;
+                }
+            }
+            Winner(x);
             // Aika varma että tätä ei tarvita.
             return House;
+        }
+
+        private async void Winner(int x)
+        {
+            MessageDialog messageDialog;
+            if (House.PlayerList[x].Intelligence == true)
+            {
+                 messageDialog = new MessageDialog("And the winner is Player");
+            }
+            else messageDialog = new MessageDialog("And the winner is Foe#" + x);
+            messageDialog.Commands.Add(new UICommand("Ok"));
+            await messageDialog.ShowAsync();
         }
 
         // Tätä tarvitaan odotteluun
