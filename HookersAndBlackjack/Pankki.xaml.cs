@@ -180,5 +180,21 @@ namespace HookersAndBlackjack
                 Debug.WriteLine("error: File Not Found");
             }
         }
+
+        private async void chipsToMoneyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (player.Chips >= 100)
+            {
+                player.Money += 50;
+                player.Chips -= 100;
+                RefreshData();
+            }
+            else
+            {
+                MessageDialog messageDialog = new MessageDialog("Not enough chips");
+                messageDialog.Commands.Add(new UICommand("Ok"));
+                await messageDialog.ShowAsync();
+            }
+        }
     }
 }

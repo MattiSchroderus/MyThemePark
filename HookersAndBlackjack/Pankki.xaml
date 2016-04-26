@@ -21,18 +21,21 @@
         </Grid.Background>
         <TextBlock x:Name="BankTitleText" HorizontalAlignment="Center" Text="Pankki" VerticalAlignment="Center" FontSize="48" FontFamily="Showcard Gothic" Height="64" Width="189"/>
         <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left"  Margin ="42,0,0,53" VerticalAlignment="Bottom" Background="#33CD6E0F" Height="50" Width="100" Click="backButton_Click" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Grid.Row="3"/>
-        <Grid HorizontalAlignment="Center" Height="199" Grid.Row="2" VerticalAlignment="Center" Width="630">
+        <Grid HorizontalAlignment="Center" Height="199" Grid.Row="2" VerticalAlignment="Center" Width="866">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button x:Name="repayButton" Content="Maksa (50)" HorizontalAlignment="Left"  Margin ="28,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="124" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Click="repayButton_Click"/>
             <Button x:Name="buyMoneyButton" Content="Lainaa" HorizontalAlignment="Left"  Margin ="56,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="100" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Grid.Column="1" Click="buyMoneyButton_Click"/>
-            <Button x:Name="buyChipsButton" Content="Osta (50)" HorizontalAlignment="Left"  Margin ="64,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="100" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Grid.Column="2" Click="buyChipsButton_Click"/>
-            <TextBlock x:Name="repayTitle" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Maksa lainaa 50" VerticalAlignment="Top" FontSize="24" Margin="10,36,10,0" Width="190"/>
-            <TextBlock x:Name="loanTitle" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Ota lainaa 50" VerticalAlignment="Top" FontSize="24" Margin="35,36,35,0" Grid.Column="1"/>
-            <TextBlock x:Name="buyChipsTitle" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Osta merkkejä 100" VerticalAlignment="Top" FontSize="24" Margin="10,36,0,0" Grid.Column="2" Width="200"/>
+            <Button x:Name="buyChipsButton" Content="Osta (50)" HorizontalAlignment="Left"  Margin ="55,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="100" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Grid.Column="2" Click="buyChipsButton_Click"/>
+            <TextBlock x:Name="repayTitle" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Maksa lainaa 50" VerticalAlignment="Top" FontSize="24" Margin="18,36,23,0" Width="176"/>
+            <TextBlock x:Name="loanTitle" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Ota lainaa 50" VerticalAlignment="Top" FontSize="24" Margin="34,36,36,0" Grid.Column="1" Height="32" Width="146"/>
+            <TextBlock x:Name="buyChipsTitle" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Osta merkkejä 100" VerticalAlignment="Top" FontSize="24" Margin="0,36,17,0" Grid.Column="2" Width="200"/>
+            <Button x:Name="chipsToMoneyButton" Content="Vaihda (50)" HorizontalAlignment="Left"  Margin ="47,94,0,0" VerticalAlignment="Top" Background="#33CD6E0F" Height="50" Width="127" BorderBrush="Black" FontSize="18" FontFamily="Showcard Gothic" Grid.Column="3" Click="chipsToMoneyButton_Click"/>
+            <TextBlock x:Name="chipsToMoneyTitle" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Vaihda chippejä 100" VerticalAlignment="Top" FontSize="24" Margin="215,36,0,0" Grid.Column="2" Width="218" Grid.ColumnSpan="2"/>
         </Grid>
         <StackPanel HorizontalAlignment="Center" Height="127" VerticalAlignment="Bottom" Width="339" Grid.Row="1">
             <TextBlock x:Name="playerTitleText" HorizontalAlignment="Center" Text="Player: " VerticalAlignment="Center" FontSize="36" FontFamily="Showcard Gothic"/>
