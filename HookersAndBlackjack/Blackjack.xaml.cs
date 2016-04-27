@@ -26,7 +26,7 @@ namespace HookersAndBlackjack
     /// </summary>
     public sealed partial class Blackjack : Page
     {
-        private SemaphoreSlim signal = new SemaphoreSlim(0, 1);
+        private TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
 
         private Table House = new Table();
         public Random rand = new Random();
@@ -50,12 +50,14 @@ namespace HookersAndBlackjack
             House.PlayerList.AddRange(house.PlayerList);
             try
             {
+                //Winner(1);
                 Task t = Task.Run(() => Rotator(House));
             }
             catch(Exception ex)
             {
                 DebugScreen1.Text += "Exception occured: " + ex.ToString();
             }
+            base.OnNavigatedTo(e);
         }
 
         // Deal buttoni on vain debugausta varten
@@ -92,7 +94,14 @@ namespace HookersAndBlackjack
             // Tämä muuttaa ListBufferin arvoa.
             ListBuffer = "Hit";
             // Tämä vapauttaa rotaattorin
-            signal.Release();
+            try
+            {
+                tcs.TrySetResult(true);
+            }
+            catch(Exception ex)
+            {
+                DebugScreen2.Text += "Exception occured: " + ex.ToString();
+            }
         }
 
         // Lopettaa pelaajan vuoron
@@ -101,7 +110,14 @@ namespace HookersAndBlackjack
             // Tämä muuttaa ListBufferin arvoa.
             ListBuffer = "Pass";
             // Tämä vapauttaa rotaattorin
-            signal.Release();
+            try
+            {
+                tcs.TrySetResult(true);
+            }
+            catch (Exception ex)
+            {
+                DebugScreen2.Text += "Exception occured: " + ex.ToString();
+            }
         }
 
         // Palauttaa aiemmalle sivulle
@@ -118,7 +134,7 @@ namespace HookersAndBlackjack
             }
         }
 
-        private Table Rotator(Table House)
+        private async void Rotator(Table House)
         {
             // Botit
             for (int i = 0; i < 3; i++)
@@ -154,8 +170,7 @@ namespace HookersAndBlackjack
                     while (b == true)
                     {
                         // Tämän pitäisi odotella nappulan painallusta
-                        Task task = Task.Run(() => Waiter());
-                        task.Wait();
+                        await tcs.Task;
                         switch (ListBuffer)
                         {
                             case "Hit":
@@ -211,8 +226,6 @@ namespace HookersAndBlackjack
                 }
             }
             Winner(x);
-            // Aika varma että tätä ei tarvita.
-            return House;
         }
 
         private async void Winner(int x)
@@ -225,12 +238,6 @@ namespace HookersAndBlackjack
             else messageDialog = new MessageDialog("And the winner is Foe#" + x);
             messageDialog.Commands.Add(new UICommand("Ok"));
             await messageDialog.ShowAsync();
-        }
-
-        // Tätä tarvitaan odotteluun
-        private async void Waiter()
-        {
-            await signal.WaitAsync();
         }
     }
 }
